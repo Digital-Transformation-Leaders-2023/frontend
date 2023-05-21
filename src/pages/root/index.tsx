@@ -1,5 +1,6 @@
-import { Button } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
+import { UploadReportButton } from "@features/upload-report";
+import { AppLayout } from "@widgets";
 
 const RootPage = () => {
   return (
@@ -7,7 +8,9 @@ const RootPage = () => {
       <Helmet>
         <title>Главная страница</title>
       </Helmet>
-      <Button view={"action"}>Привет мир</Button>
+      <AppLayout>
+        <UploadReportButton />
+      </AppLayout>
     </>
   );
 };

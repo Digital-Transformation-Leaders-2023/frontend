@@ -1,0 +1,29 @@
+@use "../../styles/kit";
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @include kit.media-breakpoint-between(xl, xxl) {
+    max-width: 1140px;
+  }
+
+  @include kit.media-breakpoint-between(lg, xl) {
+    max-width: 960px;
+  }
+
+  @include kit.media-breakpoint-between(md, lg) {
+    max-width: 720px;
+  }
+
+  @include kit.media-breakpoint-between(sm, md) {
+    max-width: 540px;
+  }
+
+  @include kit.media-breakpoint-between(xs, sm) {
+    max-width: 320px;
+  }
+
+}
