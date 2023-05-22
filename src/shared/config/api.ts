@@ -1,6 +1,7 @@
 import { Axios } from "axios";
+import { ENV } from "@shared";
 
 export const api = new Axios({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: ENV.API_URL,
   timeout: 10000,
 });

@@ -1,5 +1,33 @@
+@use "../../styles/kit";
+
 .footer {
   height: 60px;
   margin-top: auto;
   background: var(--yc-color-base-generic);
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    color: var(--yc-color-text-secondary);
+  }
+}
+
+.link {
+  width: fit-content;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+
+  path {
+    fill: var(--yc-color-text-hint);
+    transition: kit.$base-transition;
+  }
+
+  &:hover path {
+    fill: var(--yc-color-text-link);
+  }
 }
