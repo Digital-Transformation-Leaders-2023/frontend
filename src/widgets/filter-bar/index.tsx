@@ -9,7 +9,7 @@ export const FilterBar = () => {
           <Text as={"h4"} variant={"subheader-1"}>Дата приема</Text>
         </section>
         <section>
-          <Button view={"action"}>Применить фильтр</Button>
+          <Button size={"l"} view={"action"}>Применить фильтр</Button>
         </section>
       </Card>
     </aside>

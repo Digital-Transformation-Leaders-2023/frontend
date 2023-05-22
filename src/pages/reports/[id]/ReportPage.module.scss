@@ -1,11 +1,23 @@
 .page {
   &__container {
     display: grid;
-    column-gap: 24px;
+    column-gap: 28px;
     grid-template-columns: repeat(6, 1fr);
   }
 
   &__content {
     grid-column: 2 / -1;
+  }
+}
+
+.content {
+  &__heading {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &__plain {
+    display: block;
+    color: var(--yc-color-text-complementary);
   }
 }

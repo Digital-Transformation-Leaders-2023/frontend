@@ -14,7 +14,7 @@ export const handlers = [
           offset: 0,
           count: 1,
           date: faker.date.past(),
-          diagnoses: Array.from({ length: 5 }, () => ({
+          diagnoses: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
             diagnosis: faker.lorem.sentence(),
             doctor: faker.person.fullName(),
             accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
@@ -36,7 +36,7 @@ export const handlers = [
         offset: 0,
         date: faker.date.past(),
         count: 1,
-        diagnoses: Array.from({ length: 5 }, () => ({
+        diagnoses: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
           diagnosis: faker.lorem.sentence(),
           doctor: faker.person.fullName(),
           accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),

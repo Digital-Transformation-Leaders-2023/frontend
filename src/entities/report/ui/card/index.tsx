@@ -3,7 +3,7 @@ import { Report } from "@shared";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import s from "./ReportCard.module.scss";
-import { Icon24CalendarOutline } from "@vkontakte/icons";
+import { Icon24CalendarOutline, Icon24ListNumberOutline } from "@vkontakte/icons";
 
 type ReportCardProps = {
   data: Report;
@@ -30,6 +30,13 @@ export const ReportCard: FC<ReportCardProps> = (props) => {
                 year: "numeric",
               })
             }
+          </span>
+
+          <span className={s.card__part}>
+            <span className={s.icon}>
+              <Icon24ListNumberOutline />
+            </span>
+            В данном отчете {data.diagnoses.length} консультаций
           </span>
         </section>
       </Card>

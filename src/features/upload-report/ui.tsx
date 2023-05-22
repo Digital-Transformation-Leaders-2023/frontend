@@ -10,7 +10,7 @@ export const UploadReportButton = () => {
     <>
       <input {...controlProps} />
       <Button {...triggerProps} size={"l"} view={"action"}>
-        Загрузить протоколы консультаций
+        Загрузить протоколы
         <Button.Icon>
           <Icon20DocumentPlusOutline />
         </Button.Icon>

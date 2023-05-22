@@ -5,7 +5,7 @@ const api = rtkApi.injectEndpoints({
     getReports: builder.query<Report[], void>({
       query: () => "/reports",
     }),
-    getReportById: builder.query({
+    getReportById: builder.query<Report, string>({
       query: (id: string) => `/reports/${id}`,
     }),
   }),

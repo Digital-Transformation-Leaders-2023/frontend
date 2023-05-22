@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { UploadReportButton } from "@features/upload-report";
 import { AppLayout } from "@widgets";
+import s from "./RootPage.module.scss";
 
 const RootPage = () => {
   return (
@@ -8,8 +9,11 @@ const RootPage = () => {
       <Helmet>
         <title>Главная страница</title>
       </Helmet>
+
       <AppLayout>
-        <UploadReportButton />
+        <section className={s.uploadContainer}>
+          <UploadReportButton />
+        </section>
       </AppLayout>
     </>
   );
