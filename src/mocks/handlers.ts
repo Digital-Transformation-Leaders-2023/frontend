@@ -1,37 +1,48 @@
 import { rest } from "msw";
 import { Report } from "@shared";
+import { nanoid } from "nanoid";
+import { faker } from "@faker-js/faker/locale/ru";
 
 export const handlers = [
-  rest.get<Report>("/reports/:reportId", (_, res, ctx) => {
+  rest.get<Report[]>("/reports", (_, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json<Report[]>(
+        Array.from({ length: 20 }, () => ({
+          id: nanoid(),
+          status: 200,
+          offset: 0,
+          count: 1,
+          date: faker.date.past(),
+          diagnoses: Array.from({ length: 5 }, () => ({
+            diagnosis: faker.lorem.sentence(),
+            doctor: faker.person.fullName(),
+            accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
+            recommendation: faker.lorem.sentence(),
+            date: faker.date.past(),
+          })),
+        })),
+      ));
+  }),
+
+  rest.get<Report>("/reports/:reportId", (req, res, ctx) => {
+    const { reportId } = req.params;
+
     return res(
       ctx.status(200),
       ctx.json<Report>({
+        id: reportId as string,
         status: 200,
         offset: 0,
+        date: faker.date.past(),
         count: 1,
-        diagnoses: [
-          {
-            diagnosis: "Хронический синусит неуточненный",
-            doctor: "Dr. John Doe",
-            accuracy: 0.9,
-            recommendation: "Рентгенография околоносовых пазух",
-            date: new Date(),
-          },
-          {
-            diagnosis: "Вазомоторный ринит",
-            doctor: "Dr. Alex Smith",
-            accuracy: 0.8,
-            recommendation: "Рентгенография околоносовых пазух",
-            date: new Date(),
-          },
-          {
-            diagnosis: "Хронический ринит",
-            doctor: "Dr. Jack Black",
-            accuracy: 0.7,
-            recommendation: "Рентгенография пояснично-крестцового отдела позвоночника",
-            date: new Date(),
-          },
-        ],
+        diagnoses: Array.from({ length: 5 }, () => ({
+          diagnosis: faker.lorem.sentence(),
+          doctor: faker.person.fullName(),
+          accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
+          recommendation: faker.lorem.sentence(),
+          date: faker.date.past(),
+        })),
       }),
     );
   }),

@@ -1,5 +1,6 @@
 import { AppLayout } from "@widgets";
 import { Helmet } from "react-helmet-async";
+import { ReportCollection } from "@entities/report";
 
 const ReportsPage = () => {
   return (
@@ -8,7 +9,7 @@ const ReportsPage = () => {
         <title>Мои отчеты</title>
       </Helmet>
       <AppLayout>
-
+        <ReportCollection />
       </AppLayout>
     </>
   );

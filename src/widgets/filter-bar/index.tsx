@@ -3,7 +3,7 @@ import s from "./FilterBar.module.scss";
 
 export const FilterBar = () => {
   return (
-    <aside>
+    <aside className={s.aside}>
       <Card className={s.filterBar}>
         <section>
           <Text as={"h4"} variant={"subheader-1"}>Дата приема</Text>

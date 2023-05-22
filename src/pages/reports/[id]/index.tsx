@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Skeleton, Text } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
 import { FilterBar } from "@widgets/filter-bar";
+import s from "./ReportPage.module.scss";
 
 const ReportPage = () => {
   const { id } = useParams();
@@ -25,10 +26,14 @@ const ReportPage = () => {
         <title>Отчет #{id}</title>
       </Helmet>
       <AppLayout>
-        <FilterBar />
-        <Text variant={"display-1"}>
-          Отчет #{id}
-        </Text>
+        <section className={s.page__container}>
+          <FilterBar />
+          <div className={s.page__content}>
+            <Text variant={"display-1"}>
+              Отчет #{id}
+            </Text>
+          </div>
+        </section>
       </AppLayout>
     </>
   );

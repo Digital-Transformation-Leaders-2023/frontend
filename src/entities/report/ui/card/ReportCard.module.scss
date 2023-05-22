@@ -1,0 +1,40 @@
+@use "src/shared/styles/kit";
+
+.container {
+  flex: 1 1 25%;
+
+  @include kit.media-breakpoint-down(sm) {
+    width: 100%;
+  }
+}
+
+.card {
+  padding: 8px 16px;
+  transition: kit.$base-transition;
+
+  &:hover {
+    background-color: var(--yc-color-base-generic);
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__header {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &__part {
+    display: flex;
+    align-items: center;
+    color: var(--yc-color-text-secondary);
+    gap: 6px;
+  }
+}
+
+.icon {
+  color: var(--yc-color-text-info);
+}

@@ -1,0 +1,11 @@
+.page {
+  &__container {
+    display: grid;
+    column-gap: 24px;
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  &__content {
+    grid-column: 2 / -1;
+  }
+}

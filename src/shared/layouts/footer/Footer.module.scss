@@ -22,12 +22,12 @@
   width: 32px;
   height: 32px;
 
-  path {
-    fill: var(--yc-color-text-hint);
-    transition: kit.$base-transition;
-  }
-
   &:hover path {
     fill: var(--yc-color-text-link);
+  }
+
+  path {
+    transition: kit.$base-transition;
+    fill: var(--yc-color-text-hint);
   }
 }
