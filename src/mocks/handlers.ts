@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { faker } from "@faker-js/faker/locale/ru";
 
 export const handlers = [
-  rest.get<Report[]>("/reports", (_, res, ctx) => {
+  rest.get<Report[]>("reports", (_, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json<Report[]>(
@@ -14,18 +14,21 @@ export const handlers = [
           offset: 0,
           count: 1,
           date: faker.date.past(),
-          diagnoses: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
+          list: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
+            patient_gender: faker.person.sex(),
+            date_of_patient_birth: faker.date.past({ years: 90 }),
+            patient_id: faker.number.int({ max: 100 }),
+            MKB_code: faker.location.zipCode(),
             diagnosis: faker.lorem.sentence(),
-            doctor: faker.person.fullName(),
-            accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
-            recommendation: faker.lorem.sentence(),
-            date: faker.date.past(),
+            date_of_service: faker.date.past(),
+            job_title: faker.person.jobTitle(),
+            appointment: faker.lorem.sentence(),
           })),
         })),
       ));
   }),
 
-  rest.get<Report>("/reports/:reportId", (req, res, ctx) => {
+  rest.get<Report>("reports/:reportId", (req, res, ctx) => {
     const { reportId } = req.params;
 
     return res(
@@ -36,12 +39,15 @@ export const handlers = [
         offset: 0,
         date: faker.date.past(),
         count: 1,
-        diagnoses: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
+        list: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
+          patient_gender: faker.person.sex(),
+          date_of_patient_birth: faker.date.past({ years: 90 }),
+          patient_id: faker.number.int({ max: 100 }),
+          MKB_code: faker.location.zipCode(),
           diagnosis: faker.lorem.sentence(),
-          doctor: faker.person.fullName(),
-          accuracy: faker.number.float({ min: 0, max: 1, precision: 0.01 }),
-          recommendation: faker.lorem.sentence(),
-          date: faker.date.past(),
+          date_of_service: faker.date.past(),
+          job_title: faker.person.jobTitle(),
+          appointment: faker.lorem.sentence(),
         })),
       }),
     );

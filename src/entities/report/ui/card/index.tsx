@@ -36,7 +36,7 @@ export const ReportCard: FC<ReportCardProps> = (props) => {
             <span className={s.icon}>
               <Icon24ListNumberOutline />
             </span>
-            В данном отчете {data.diagnoses.length} консультаций
+            В данном отчете {data.list.length} консультаций
           </span>
         </section>
       </Card>

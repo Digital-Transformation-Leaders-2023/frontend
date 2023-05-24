@@ -4,12 +4,15 @@ type Report = {
   offset: number,
   count: number,
   date: Date,
-  diagnoses: {
+  list: {
+    patient_gender: string,
+    date_of_patient_birth: Date,
+    patient_id: number,
+    MKB_code: string,
     diagnosis: string,
-    doctor: string,
-    accuracy: number,
-    recommendation: string,
-    date: Date,
+    date_of_service: Date,
+    job_title: string,
+    appointment: string,
   }[]
 };
 

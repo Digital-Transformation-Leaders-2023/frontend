@@ -1,20 +1,21 @@
 import { AppLayout } from "@widgets";
 import { useGetReportByIdQuery } from "@entities/report";
 import { useParams } from "react-router-dom";
-import { Skeleton, Table, Tabs, Text } from "@gravity-ui/uikit";
+import { Card, Skeleton, Table, Tabs, Text } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
-import { FilterBar } from "@widgets/filter-bar";
 import s from "./ReportPage.module.scss";
 import { useState } from "react";
+import { Tab } from "@shared";
+import { FilterBar } from "@features/apply-filters";
 
 type Tabs = "meta" | "visual"
 
 const ReportPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetReportByIdQuery(id ?? "");
+  const { data, isLoading } = useGetReportByIdQuery(id ?? "", {
+    skip: !id,
+  });
   const [tab, setTab] = useState<Tabs>("meta");
-
-  console.log(data, tab);
 
   if (isLoading) {
     return (
@@ -31,9 +32,9 @@ const ReportPage = () => {
       </Helmet>
       <AppLayout>
         <section className={s.page__container}>
-          <FilterBar />
+          <FilterBar reportId={id ?? ""} />
 
-          <div className={s.page__content}>
+          <Card className={s.page__content}>
             <Text className={s.content__heading} variant={"display-1"}>
               Отчет #{id}
             </Text>
@@ -55,7 +56,7 @@ const ReportPage = () => {
 
             {
               tab === "meta" && (
-                <>
+                <Tab>
                   <Text>
                     Тут будет мета-информация об отчете
                   </Text>
@@ -70,24 +71,26 @@ const ReportPage = () => {
                         id: "value",
                         name: "Назначение",
                       },
-                    ]} data={data?.diagnoses.map(d => {
+                    ]} data={data?.list.map(d => {
                       return {
                         name: d.diagnosis,
-                        value: d.recommendation,
+                        value: d.appointment,
                       };
                     }) ?? []} />
-                </>
+                </Tab>
               )
             }
 
             {
               tab === "visual" && (
-                <Text>
-                  Тут будет визуализация
-                </Text>
+                <Tab>
+                  <Text>
+                    Тут будет визуализация
+                  </Text>
+                </Tab>
               )
             }
-          </div>
+          </Card>
 
         </section>
       </AppLayout>
