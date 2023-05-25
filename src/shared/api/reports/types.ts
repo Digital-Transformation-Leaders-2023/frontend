@@ -1,8 +1,6 @@
 type Report = {
   id: string;
-  status: number,
-  offset: number,
-  count: number,
+  total: number,
   date: Date,
   list: {
     patient_gender: string,

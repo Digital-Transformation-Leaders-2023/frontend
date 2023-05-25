@@ -1,0 +1,66 @@
+@use "src/shared/styles/kit";
+
+.form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  transform: translate(-50%, -50%);
+
+  @include kit.media-breakpoint-down(sm) {
+    width: 250px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--yc-color-line-generic);
+    gap: 2px;
+
+    svg {
+      color: var(--yc-color-text-info);
+    }
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    gap: 8px;
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    &_required {
+      margin-left: 4px;
+
+      &::before {
+        content: "*";
+        color: var(--yc-color-text-danger);
+      }
+    }
+  }
+
+  &__delimitter {
+    display: block;
+    width: 75%;
+    height: 1px;
+    margin: 12px auto 8px;
+    background-color: var(--yc-color-line-generic);
+    border-radius: 9999px;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__button {
+    margin-top: 1.5rem;
+  }
+}

@@ -1,4 +1,4 @@
-@use "../../../shared/styles/kit";
+@use "src/shared/styles/kit";
 
 .header {
   height: 60px;
@@ -39,6 +39,7 @@
     }
 
     &_active {
+      color: var(--yc-color-text-link);
       border-bottom: 3px solid var(--yc-color-text-link);
     }
   }

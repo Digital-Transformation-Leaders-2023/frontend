@@ -10,9 +10,7 @@ export const handlers = [
       ctx.json<Report[]>(
         Array.from({ length: 20 }, () => ({
           id: nanoid(),
-          status: 200,
-          offset: 0,
-          count: 1,
+          total: faker.number.int({ max: 100 }),
           date: faker.date.past(),
           list: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
             patient_gender: faker.person.sex(),
@@ -35,10 +33,8 @@ export const handlers = [
       ctx.status(200),
       ctx.json<Report>({
         id: reportId as string,
-        status: 200,
-        offset: 0,
         date: faker.date.past(),
-        count: 1,
+        total: faker.number.int({ max: 100 }),
         list: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
           patient_gender: faker.person.sex(),
           date_of_patient_birth: faker.date.past({ years: 90 }),

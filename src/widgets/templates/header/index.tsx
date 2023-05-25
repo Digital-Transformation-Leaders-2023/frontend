@@ -24,7 +24,7 @@ export const Header = () => {
             </li>
             <li className={clsx(
               s.header__nav_item,
-              location.pathname === "/reports" && s.header__nav_active,
+              location.pathname.includes("reports") && s.header__nav_active,
             )}>
               <Link to={"/reports"}>
                 <Text as={"h6"} variant={"body-3"}>
