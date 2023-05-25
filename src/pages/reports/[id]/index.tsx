@@ -1,18 +1,21 @@
 import { AppLayout } from "@widgets";
 import { useGetReportByIdQuery } from "@entities/report";
 import { useParams } from "react-router-dom";
-import { Card, Skeleton, Table, Tabs, Text } from "@gravity-ui/uikit";
+import { Card, Skeleton, Tabs, Text } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
 import s from "./ReportPage.module.scss";
 import { useState } from "react";
 import { Tab } from "@shared";
 import { FilterBar } from "@features/apply-filters";
+import { ReportMetadataTab } from "@widgets/report-metadata-tab";
 
 type Tabs = "meta" | "visual"
 
 const ReportPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetReportByIdQuery(id ?? "", {
+  const { isLoading } = useGetReportByIdQuery({
+    id: id ?? "",
+  }, {
     skip: !id,
   });
   const [tab, setTab] = useState<Tabs>("meta");
@@ -56,28 +59,7 @@ const ReportPage = () => {
 
             {
               tab === "meta" && (
-                <Tab>
-                  <Text>
-                    Тут будет мета-информация об отчете
-                  </Text>
-
-                  <Table
-                    columns={[
-                      {
-                        id: "name",
-                        name: "Диагноз",
-                      },
-                      {
-                        id: "value",
-                        name: "Назначение",
-                      },
-                    ]} data={data?.list.map(d => {
-                      return {
-                        name: d.diagnosis,
-                        value: d.appointment,
-                      };
-                    }) ?? []} />
-                </Tab>
+                <ReportMetadataTab />
               )
             }
 
