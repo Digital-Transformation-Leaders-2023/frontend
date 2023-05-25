@@ -1,4 +1,4 @@
-import { ApiAllReportsResponse, Report, rtkApi } from "@shared";
+import { ApiAllReportsResponse, Report, rtkApi, RtkCacheKeysEnum } from "@shared";
 
 const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -28,6 +28,10 @@ const api = rtkApi.injectEndpoints({
           },
         };
       },
+      providesTags: (result) =>
+        result
+          ? [{ type: RtkCacheKeysEnum.Report, id: result.id }, RtkCacheKeysEnum.Report]
+          : [RtkCacheKeysEnum.Report],
     }),
   }),
 });

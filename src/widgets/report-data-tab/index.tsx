@@ -2,7 +2,7 @@ import { Tab } from "@shared";
 import { Text } from "@gravity-ui/uikit";
 import { ReportTable } from "@entities/report";
 
-export const ReportMetadataTab = () => {
+export const ReportDataTab = () => {
   return (
     <Tab>
       <Text>

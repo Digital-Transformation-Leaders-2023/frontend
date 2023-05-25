@@ -1,5 +1,5 @@
 import { ReportCard, useGetReportsQuery } from "@entities/report";
-import { Skeleton } from "@gravity-ui/uikit";
+import { Spin } from "@gravity-ui/uikit";
 import s from "./ReportCollection.module.scss";
 import { Pagination } from "@shared";
 import { useSearchParams } from "react-router-dom";
@@ -13,7 +13,7 @@ export const ReportCollection = () => {
   if (isFetching) {
     return (
       <div>
-        <Skeleton />
+        <Spin size={"l"} />
       </div>
     );
   }

@@ -54,6 +54,10 @@ export const ReportTable: FC = () => {
         },
       },
       {
+        id: "sex",
+        name: "Пол пациента",
+      },
+      {
         id: "age",
         name: "Возраст пациента",
         meta: {
@@ -70,7 +74,7 @@ export const ReportTable: FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [settings, setSettings] = useState<TableSettingsData>(() => columns.map(c => ({
     id: c.id,
-    isSelected: !["age", "mkb_code"].includes(c.id),
+    isSelected: !["age", "mkb_code", "sex"].includes(c.id),
   })));
 
   if (!data) {
@@ -99,6 +103,7 @@ export const ReportTable: FC = () => {
             date: new Date(d.date_of_service).toLocaleDateString("ru"),
             age: new Date().getFullYear() - new Date(d.date_of_patient_birth).getFullYear(),
             mkb_code: d.MKB_code,
+            sex: d.patient_gender,
           };
         }) ?? []}
         onSelectionChange={setSelectedIds} />

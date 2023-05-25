@@ -1,13 +1,14 @@
 import { Controller, useForm } from "react-hook-form";
 import { Button, Card, Text, TextInput } from "@gravity-ui/uikit";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "@features/auth/sign-in";
 import { Icon28UserAddBadgeOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
 import { Link } from "react-router-dom";
+import { SignupDto } from "@entities/user";
+import { schema } from "@features/auth/sign-up";
 
 export const SignUpForm = () => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<SignupDto>({
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
@@ -16,7 +17,7 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: SignupDto) => {
     console.log(data);
   };
 
@@ -36,7 +37,12 @@ export const SignUpForm = () => {
                   Электропочта
                   <span className={s.form__fields_required} />
                 </Text>
-                <TextInput {...field} error={error?.message}  placeholder={"johndoe@icloud.com"} size={"l"} />
+                <TextInput
+                  {...field}
+                  error={error?.message}
+                  placeholder={"johndoe@icloud.com"}
+                  size={"l"}
+                  type={"email"} />
               </div>
             )} />
           <Controller control={control} name={"password"}
@@ -46,17 +52,26 @@ export const SignUpForm = () => {
                   Пароль
                   <span className={s.form__fields_required} />
                 </Text>
-                <TextInput {...field} error={error?.message} placeholder={"********"} size={"l"} />
+                <TextInput
+                  {...field}
+                  error={error?.message}
+                  placeholder={"********"}
+                  size={"l"}
+                  type={"password"} />
               </div>
             )} />
-          <Controller control={control} name={"password"}
+          <Controller control={control} name={"username"}
             render={({ field, fieldState: { error } }) => (
               <div>
                 <Text as={"label"} variant={"subheader-1"}>
                    Ваше имя
                   <span className={s.form__fields_required} />
                 </Text>
-                <TextInput {...field} error={error?.message} placeholder={"Евгений Блюм"} size={"l"} />
+                <TextInput
+                  {...field}
+                  error={error?.message}
+                  placeholder={"Филипп Преображенский"}
+                  size={"l"} />
               </div>
             )} />
         </section>
@@ -71,7 +86,7 @@ export const SignUpForm = () => {
       <footer className={s.form__footer}>
         <Link to={"/auth/login"}>
           <Button className={s.form__footer_button} view={"flat"}>
-            Войти
+            Я уже зарегистрирован
           </Button>
         </Link>
       </footer>

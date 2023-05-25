@@ -7,7 +7,7 @@ import s from "./ReportPage.module.scss";
 import { useState } from "react";
 import { Tab } from "@shared";
 import { FilterBar } from "@features/apply-filters";
-import { ReportMetadataTab } from "@widgets/report-metadata-tab";
+import { ReportDataTab } from "@widgets/report-data-tab";
 
 type Tabs = "meta" | "visual"
 
@@ -47,7 +47,7 @@ const ReportPage = () => {
               items={[
                 {
                   id: "meta",
-                  title: "Мета-информация об отчете",
+                  title: "Информация об отчете",
                 },
                 {
                   id: "visual",
@@ -59,7 +59,7 @@ const ReportPage = () => {
 
             {
               tab === "meta" && (
-                <ReportMetadataTab />
+                <ReportDataTab />
               )
             }
 

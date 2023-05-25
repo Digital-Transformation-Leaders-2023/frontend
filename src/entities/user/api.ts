@@ -6,7 +6,7 @@ export type SignupDto = {
   username: string;
 };
 
-export type LoginDto = Pick<SignupDto, "username">;
+export type LoginDto = Omit<SignupDto, "username">;
 
 const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({

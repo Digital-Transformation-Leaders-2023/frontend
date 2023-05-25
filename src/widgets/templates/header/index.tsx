@@ -1,7 +1,7 @@
 import { Container } from "@shared";
 import { Link, useLocation } from "react-router-dom";
 import s from "./Header.module.scss";
-import { DropdownMenu, Text, User } from "@gravity-ui/uikit";
+import { Button, DropdownMenu, Text, User } from "@gravity-ui/uikit";
 import clsx from "clsx";
 
 export const Header = () => {
@@ -33,21 +33,30 @@ export const Header = () => {
               </Link>
             </li>
           </ul>
-          <DropdownMenu size={"l"} items={[
-            {
-              action: () => console.log("выйти"),
-              theme: "danger",
-              text: "Выйти",
-            },
-          ]} switcher={(
-            <User
-              className={s.user}
-              description="mayatin@itmo.ru"
-              imgUrl={"https://photo.itmo.su/avatar/ab7389a33ecd63e4bd6c96ddd9551d73c791806f/cover/320/320/"}
-              name="Александр Маятин"
-              size="l"
-            />
-          )} />
+
+          <>
+            <Link to={"/auth/login"}>
+              <Button view={"flat"}>
+                Войти в аккаунт
+              </Button>
+            </Link>
+          </>
+
+          {/*<DropdownMenu size={"l"} items={[*/}
+          {/*  {*/}
+          {/*    action: () => console.log("выйти"),*/}
+          {/*    theme: "danger",*/}
+          {/*    text: "Выйти",*/}
+          {/*  },*/}
+          {/*]} switcher={(*/}
+          {/*  <User*/}
+          {/*    className={s.user}*/}
+          {/*    description="mayatin@itmo.ru"*/}
+          {/*    imgUrl={"https://photo.itmo.su/avatar/ab7389a33ecd63e4bd6c96ddd9551d73c791806f/cover/320/320/"}*/}
+          {/*    name="Александр Маятин"*/}
+          {/*    size="l"*/}
+          {/*  />*/}
+          {/*)} />*/}
         </nav>
       </Container>
     </header>

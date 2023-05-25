@@ -5,9 +5,10 @@ import { schema } from "@features/auth/sign-in";
 import { Icon28UserCircleOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
 import { Link } from "react-router-dom";
+import { LoginDto } from "@entities/user";
 
 export const SignInForm = () => {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<LoginDto>({
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
@@ -15,7 +16,7 @@ export const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: LoginDto) => {
     console.log(data);
   };
 
@@ -35,7 +36,12 @@ export const SignInForm = () => {
                   Электропочта
                   <span className={s.form__fields_required} />
                 </Text>
-                <TextInput {...field} error={error?.message}  placeholder={"johndoe@icloud.com"} size={"l"} />
+                <TextInput
+                  {...field}
+                  error={error?.message}
+                  placeholder={"johndoe@icloud.com"}
+                  size={"l"}
+                  type={"email"} />
               </div>
             )} />
           <Controller control={control} name={"password"}
@@ -45,7 +51,12 @@ export const SignInForm = () => {
                   Пароль
                   <span className={s.form__fields_required} />
                 </Text>
-                <TextInput {...field} error={error?.message} placeholder={"********"} size={"l"} />
+                <TextInput
+                  {...field}
+                  error={error?.message}
+                  placeholder={"********"}
+                  size={"l"}
+                  type={"password"} />
               </div>
             )} />
         </section>
@@ -60,7 +71,7 @@ export const SignInForm = () => {
       <footer className={s.form__footer}>
         <Link to={"/auth/signup"}>
           <Button className={s.form__footer_button} view={"flat"}>
-            Зарегистрироваться
+            Создать аккаунт
           </Button>
         </Link>
       </footer>
