@@ -2,10 +2,11 @@ import { rest } from "msw";
 import { ApiAllReportsResponse, Report } from "@shared";
 import { nanoid } from "nanoid";
 import { faker } from "@faker-js/faker/locale/ru";
+import { CONST } from "@shared/config/const.ts";
 
 export const handlers = [
   rest.get<Report[]>("reports", (req, res, ctx) => {
-    const take = +(req.url.searchParams.get("limit") ?? 10);
+    const take = +(req.url.searchParams.get("limit") ?? CONST.PAGINATION_LIMIT);
     const page = +(req.url.searchParams.get("skip") ?? 1);
 
     return res(
@@ -15,9 +16,9 @@ export const handlers = [
           reports: Array.from({ length: 30 }, () => ({
             id: nanoid(),
             is_favorite: faker.datatype.boolean(),
-            total: faker.number.int({ max: 100 }),
+            total: 100,
             date: faker.date.past(),
-            list: Array.from({ length: Math.floor(Math.random()  * (20 - 5) + 5) }, () => ({
+            list: Array.from({ length: 100 }, () => ({
               patient_gender: faker.person.sex(),
               date_of_patient_birth: faker.date.past({ years: 90 }),
               patient_id: faker.number.int({ max: 100 }),
@@ -45,8 +46,8 @@ export const handlers = [
         id: reportId as string,
         date: faker.date.past(),
         is_favorite: faker.datatype.boolean(),
-        total: faker.number.int({ max: 100 }),
-        list: Array.from({ length: Math.floor(Math.random()  * (20 - 10) + 10) }, () => ({
+        total: 100,
+        list: Array.from({ length: 100 }, () => ({
           patient_gender: faker.person.sex(),
           date_of_patient_birth: faker.date.past({ years: 90 }),
           patient_id: faker.number.int({ max: 100 }),

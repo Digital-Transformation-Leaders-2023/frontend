@@ -1,4 +1,4 @@
-import { ApiAllReportsResponse, Report, rtkApi, RtkCacheKeysEnum } from "@shared";
+import { ApiAllReportsResponse, CONST, Report, rtkApi, RtkCacheKeysEnum } from "@shared";
 
 const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +9,7 @@ const api = rtkApi.injectEndpoints({
         return {
           url: "reports",
           params: {
-            limit: 10,
+            limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
           },
         };
@@ -23,7 +23,7 @@ const api = rtkApi.injectEndpoints({
         return {
           url: `reports/${id}`,
           params: {
-            limit: 10,
+            limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
           },
         };

@@ -11,6 +11,8 @@ type PaginationProps = {
 export const Pagination: FC<PaginationProps> = (props) => {
   const { total, current, onChange } = props;
 
+  if (total <= 1) return null;
+
   return (
     <div className={s.pagination}>
       {

@@ -1,4 +1,4 @@
-import { Pagination } from "@shared";
+import { CONST, Pagination } from "@shared";
 import { FC, useMemo, useState } from "react";
 import {
   Label,
@@ -108,12 +108,14 @@ export const ReportTable: FC = () => {
         }) ?? []}
         onSelectionChange={setSelectedIds} />
 
-      <Pagination current={+(searchParams.get("page") ?? 1)} total={3} onChange={(page) => {
-        setSearchParams({
-          ...searchParams,
-          page: page.toString(),
-        });
-      }} />
+      <Pagination current={+(searchParams.get("page") ?? 1)}
+        total={Math.ceil(data?.total / CONST.PAGINATION_LIMIT)}
+        onChange={(page) => {
+          setSearchParams({
+            ...searchParams,
+            page: page.toString(),
+          });
+        }} />
     </>
   );
 };
