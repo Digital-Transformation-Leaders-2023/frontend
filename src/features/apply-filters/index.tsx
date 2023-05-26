@@ -113,7 +113,9 @@ export const FilterBar: FC<FilterBarProps> = (props) => {
           </section>
         </section>
 
-        <Button className={s.button} size={"l"} view={"action"} onClick={handleFilterSubmission}>
+        <Button className={s.button} size={"l"}
+          view={"action"} width={"max"}
+          onClick={handleFilterSubmission}>
           Применить фильтр
         </Button>
 

@@ -1,6 +1,11 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, HTMLAttributes, PropsWithChildren } from "react";
 import s from "./Tab.module.scss";
+import clsx from "clsx";
 
-export const Tab: FC<PropsWithChildren> = ({ children }) => {
-  return <section className={s.tab}>{children}</section>;
+export const Tab: FC<PropsWithChildren<HTMLAttributes<HTMLDivElement>>> = ({
+  children,
+  className,
+  ...rest
+}) => {
+  return <section {...rest} className={clsx(s.tab, className)}>{children}</section>;
 };

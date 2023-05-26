@@ -1,3 +1,3 @@
 export const CONST = Object.freeze({
-  PAGINATION_LIMIT: 100,
+  PAGINATION_LIMIT: 10,
 });

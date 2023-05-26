@@ -9,7 +9,7 @@
   transform: translate(-50%, -50%);
 
   @include kit.media-breakpoint-down(sm) {
-    width: 250px;
+    width: 320px;
   }
 
   &__header {

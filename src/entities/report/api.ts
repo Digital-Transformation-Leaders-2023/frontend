@@ -4,13 +4,15 @@ const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
     getReports: builder.query<ApiAllReportsResponse, {
       skip?: number,
+      is_favorite?: boolean,
     }>({
-      query: ({ skip }) => {
+      query: ({ skip, is_favorite }) => {
         return {
           url: "reports",
           params: {
             limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
+            is_favorite: is_favorite ?? false,
           },
         };
       },

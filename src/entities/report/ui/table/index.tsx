@@ -1,4 +1,4 @@
-import { CONST, Pagination } from "@shared";
+import { CONST, Pagination, Report } from "@shared";
 import { FC, useMemo, useState } from "react";
 import {
   Label,
@@ -7,22 +7,18 @@ import {
   withTableSelection,
   withTableSettings,
   withTableSorting,
+  TableSortState,
 } from "@gravity-ui/uikit";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useGetReportByIdQuery } from "@entities/report";
+import { useSearchParams } from "react-router-dom";
 
 const RichTable = withTableSettings(withTableSorting(withTableSelection(Table)));
 
-export const ReportTable: FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+type ReportTableProps = {
+  data?: Report;
+}
 
-  const { id } = useParams();
-  const { data } = useGetReportByIdQuery({
-    id: id ?? "",
-    skip: +(searchParams.get("page") ?? 1),
-  }, {
-    skip: !id,
-  });
+export const ReportTable: FC<ReportTableProps> = ({ data }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const columns = useMemo(() => {
     return [
@@ -33,6 +29,10 @@ export const ReportTable: FC = () => {
         meta: {
           sort: true,
         },
+      },
+      {
+        id: "job_title",
+        name: "Должность врача",
       },
       {
         id: "appointment",
@@ -104,9 +104,27 @@ export const ReportTable: FC = () => {
             age: new Date().getFullYear() - new Date(d.date_of_patient_birth).getFullYear(),
             mkb_code: d.MKB_code,
             sex: d.patient_gender,
+            job_title: d.job_title,
           };
         }) ?? []}
-        onSelectionChange={setSelectedIds} />
+        sortState={[
+          {
+            column: "accuracy",
+            order: "desc",
+          },
+          {
+            column: "date",
+            order: "desc",
+          },
+          {
+            column: "name",
+            order: "asc",
+          },
+        ]}
+        onSelectionChange={setSelectedIds}
+        onSortStateChange={(sortState: TableSortState) => {
+          console.log(sortState);
+        }} />
 
       <Pagination current={+(searchParams.get("page") ?? 1)}
         total={Math.ceil(data?.total / CONST.PAGINATION_LIMIT)}

@@ -1,26 +1,24 @@
 import { AppLayout } from "@widgets";
-import { useGetReportByIdQuery } from "@entities/report";
+import { ReportDataTab, ReportVisualizationTab } from "@entities/report";
 import { useParams } from "react-router-dom";
 import { Card, Skeleton, Tabs, Text } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
 import s from "./ReportPage.module.scss";
 import { useState } from "react";
-import { Tab } from "@shared";
 import { FilterBar } from "@features/apply-filters";
-import { ReportDataTab } from "@widgets/report-data-tab";
+import { RemoveReportFromFavourite } from "@features/remove-report-from-favourite";
+import { AddReportToFavourite } from "@features/add-report-to-favourite";
+import { useActiveReport } from "@entities/report";
 
 type Tabs = "meta" | "visual"
 
 const ReportPage = () => {
   const { id } = useParams();
-  const { isLoading } = useGetReportByIdQuery({
-    id: id ?? "",
-  }, {
-    skip: !id,
-  });
+  const { report, isFetching } = useActiveReport();
+
   const [tab, setTab] = useState<Tabs>("meta");
 
-  if (isLoading) {
+  if (isFetching) {
     return (
       <AppLayout>
         <Skeleton />
@@ -35,7 +33,19 @@ const ReportPage = () => {
       </Helmet>
       <AppLayout>
         <section className={s.page__container}>
-          <FilterBar reportId={id ?? ""} />
+          <section className={s.page__aside}>
+            <FilterBar reportId={id ?? ""} />
+
+            <Card>
+              {
+                report?.is_favorite ? (
+                  <AddReportToFavourite />
+                ) : (
+                  <RemoveReportFromFavourite />
+                )
+              }
+            </Card>
+          </section>
 
           <Card className={s.page__content}>
             <Text className={s.content__heading} variant={"display-1"}>
@@ -47,7 +57,7 @@ const ReportPage = () => {
               items={[
                 {
                   id: "meta",
-                  title: "Информация об отчете",
+                  title: "Сводная информация",
                 },
                 {
                   id: "visual",
@@ -65,11 +75,7 @@ const ReportPage = () => {
 
             {
               tab === "visual" && (
-                <Tab>
-                  <Text>
-                    Тут будет визуализация
-                  </Text>
-                </Tab>
+                <ReportVisualizationTab />
               )
             }
           </Card>

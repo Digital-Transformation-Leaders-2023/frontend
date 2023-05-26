@@ -1,12 +1,36 @@
+@use "src/shared/styles/kit";
+
 .page {
   &__container {
     display: grid;
     column-gap: 28px;
     grid-template-columns: repeat(6, 1fr);
+
+    @include kit.media-breakpoint-down(md) {
+      row-gap: 20px;
+    }
+  }
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1 / 2;
+    grid-row: 1;
+    gap: 16px;
+
+    @include kit.media-breakpoint-down(md) {
+      grid-column: 1 / -1;
+    }
   }
 
   &__content {
     grid-column: 2 / -1;
+    grid-row: 1;
+
+    @include kit.media-breakpoint-down(md) {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
   }
 }
 
@@ -14,6 +38,7 @@
   &__heading {
     display: block;
     margin-bottom: 8px;
+    word-break:break-all;
   }
 
   &__plain {

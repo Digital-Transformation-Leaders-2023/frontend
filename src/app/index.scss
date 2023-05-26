@@ -9,9 +9,12 @@
   font-weight: 600;
 }
 
-.yc-text_variant_display-1 {
-  display: block;
+.yc-text_variant_display-1,
+.yc-text_variant_header-2 {
+  display: flex;
+  align-items: center;
   margin-bottom: 12px;
+  gap: 12px;
 }
 
 .yc-card {
@@ -27,6 +30,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
 }
 
 html {
