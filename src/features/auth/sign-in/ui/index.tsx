@@ -21,13 +21,14 @@ export const SignInForm = () => {
 
   const onSubmit = async (dto: LoginDto) => {
     try {
-      const { data } = await api.post("/auth/login", dto);
+      const { data } = await api.post("login", JSON.stringify(dto));
       console.log(data);
     } catch (e) {
       const err = e as AxiosError;
+      console.log(err);
       add({
         name: "Ошибка",
-        title: err?.cause?.message ?? "Произошла ошибка при регистрации пользователя",
+        title: err?.message ?? "Произошла ошибка при авторизации пользователя",
         type: "error",
       });
     }

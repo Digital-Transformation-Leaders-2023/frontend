@@ -9,6 +9,7 @@ import { schema } from "@features/auth/sign-up";
 import { api } from "@shared";
 import { AxiosError } from "axios";
 import { useCallback } from "react";
+import Cookies from "js-cookie";
 
 export const SignUpForm = () => {
   const { add } = useToaster();
@@ -25,12 +26,17 @@ export const SignUpForm = () => {
   const onSubmit = useCallback(async (dto: SignupDto) => {
     try {
       const { data } = await api.post("signup", JSON.stringify(dto));
-      console.log(data);
+
+      const token = JSON.parse(data).access_token;
+      Cookies.set("access_token", token, {
+        expires: 30,
+        httpOnly: true,
+      });
     } catch (e) {
       const err = e as AxiosError;
       add({
         name: "Ошибка",
-        title: err?.cause?.message ?? "Произошла ошибка при регистрации пользователя",
+        title: err?.message ?? "Произошла ошибка при регистрации пользователя",
         type: "error",
       });
     }

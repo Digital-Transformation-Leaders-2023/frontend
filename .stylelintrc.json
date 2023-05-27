@@ -1,3 +1,4 @@
 {
-  "extends": ["@builtbysasha/stylelint"]
+  "extends": ["@builtbysasha/stylelint"],
+  "ignoreFiles": ["dist/**/*", "node_modules/**/*"]
 }

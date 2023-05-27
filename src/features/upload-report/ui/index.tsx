@@ -43,7 +43,7 @@ export const UploadReportButton = () => {
       const err = e as AxiosError;
       add({
         name: "Ошибка",
-        title: err?.cause?.message ?? "Произошла ошибка при загрузке отчета",
+        title: err?.message ?? "Произошла ошибка при загрузке отчета",
         type: "error",
       });
     }
