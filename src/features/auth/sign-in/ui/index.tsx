@@ -1,13 +1,16 @@
 import { Controller, useForm } from "react-hook-form";
-import { Button, Card, Text, TextInput } from "@gravity-ui/uikit";
+import { Button, Card, Text, TextInput, useToaster } from "@gravity-ui/uikit";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "@features/auth/sign-in";
 import { Icon28UserCircleOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
 import { Link } from "react-router-dom";
 import { LoginDto } from "@entities/user";
+import { AxiosError } from "axios";
+import { api } from "@shared";
 
 export const SignInForm = () => {
+  const { add } = useToaster();
   const { control, handleSubmit } = useForm<LoginDto>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -16,8 +19,18 @@ export const SignInForm = () => {
     },
   });
 
-  const onSubmit = (data: LoginDto) => {
-    console.log(data);
+  const onSubmit = async (dto: LoginDto) => {
+    try {
+      const { data } = await api.post("/auth/login", dto);
+      console.log(data);
+    } catch (e) {
+      const err = e as AxiosError;
+      add({
+        name: "Ошибка",
+        title: err?.cause?.message ?? "Произошла ошибка при регистрации пользователя",
+        type: "error",
+      });
+    }
   };
 
   return (

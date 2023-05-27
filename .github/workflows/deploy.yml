@@ -1,35 +1,53 @@
-name: Deploy
+name: Deploy static content to Pages
 
 on:
-  workflow_dispatch: {}
   push:
-    branches:
-      - main
+    branches: ['main']
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
-      - run: yarn install --frozen-lockfile
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
       - name: Build
         run: yarn build
-      - uses: actions/configure-pages@v2
-      - uses: actions/upload-pages-artifact@v1
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_MOCKS: ${{ secrets.VITE_MOCKS }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          path: dist
-      - name: Deploy
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1

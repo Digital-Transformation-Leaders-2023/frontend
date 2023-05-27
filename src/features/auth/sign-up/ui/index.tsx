@@ -1,13 +1,18 @@
 import { Controller, useForm } from "react-hook-form";
-import { Button, Card, Text, TextInput } from "@gravity-ui/uikit";
+import { Button, Card, Text, TextInput, useToaster } from "@gravity-ui/uikit";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon28UserAddBadgeOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
 import { Link } from "react-router-dom";
 import { SignupDto } from "@entities/user";
 import { schema } from "@features/auth/sign-up";
+import { api } from "@shared";
+import { AxiosError } from "axios";
+import { useCallback } from "react";
 
 export const SignUpForm = () => {
+  const { add } = useToaster();
+
   const { control, handleSubmit } = useForm<SignupDto>({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -17,9 +22,19 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (data: SignupDto) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(async (dto: SignupDto) => {
+    try {
+      const { data } = await api.post("signup", JSON.stringify(dto));
+      console.log(data);
+    } catch (e) {
+      const err = e as AxiosError;
+      add({
+        name: "Ошибка",
+        title: err?.cause?.message ?? "Произошла ошибка при регистрации пользователя",
+        type: "error",
+      });
+    }
+  }, [add, handleSubmit]);
 
   return (
     <Card className={s.form}>
@@ -76,7 +91,8 @@ export const SignUpForm = () => {
             )} />
         </section>
 
-        <Button className={s.form__button} size={"l"} type={"submit"} view={"action"} width={"max"}>
+        <Button className={s.form__button} size={"l"}
+          type={"submit"} view={"action"} width={"max"}>
           Создать аккаунт
         </Button>
       </form>

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { lazy } from "react";
 
 const RootPageLazy = lazy(() => import("@pages/root"));
@@ -8,7 +8,7 @@ const Page404Lazy = lazy(() => import("@pages/404"));
 const PageAuthLoginLazy = lazy(() => import("@pages/auth/login"));
 const PageAuthSignupLazy = lazy(() => import("@pages/auth/signup"));
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <RootPageLazy />,

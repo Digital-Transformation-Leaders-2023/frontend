@@ -1,5 +1,5 @@
 {
-  "name": "sovkombank-hack-frontend",
+  "name": "dlt-hack-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,7 @@
     "cs:fix": "yarn eslint --fix && yarn stylelint --fix",
     "prepare": "husky install"
   },
+  "homepage": "https://digital-transformation-leaders-2023.github.io/frontend/",
   "dependencies": {
     "@gravity-ui/uikit": "^4.13.0",
     "@hookform/resolvers": "^3.1.0",
