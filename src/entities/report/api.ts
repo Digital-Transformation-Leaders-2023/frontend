@@ -1,4 +1,5 @@
 import { ApiAllReportsResponse, CONST, Report, rtkApi, RtkCacheKeysEnum } from "@shared";
+import { reportActions } from "@entities/report/model.ts";
 
 const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -30,15 +31,29 @@ const api = rtkApi.injectEndpoints({
     getReportById: builder.query<Report, {
       id: string,
       skip?: number,
+      age?: string[],
+      sex?: string,
+      mkb_code?: string,
     }>({
-      query: ({ id, skip }) => {
+      query: ({ id, skip, sex, mkb_code, age }) => {
         return {
           url: `api/v1/report/get_by_document_id/${id}`,
           params: {
             limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
+            age,
+            sex,
+            mkb_code,
           },
         };
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(reportActions.setReport(data));
+        } catch (error) {
+          console.log(error);
+        }
       },
       transformResponse(response: Report) {
         return {
@@ -47,10 +62,7 @@ const api = rtkApi.injectEndpoints({
           date: response.date.$date,
         };
       },
-      providesTags: (result) =>
-        result
-          ? [{ type: RtkCacheKeysEnum.Report, id: result.id }, RtkCacheKeysEnum.Report]
-          : [RtkCacheKeysEnum.Report],
+      providesTags: [RtkCacheKeysEnum.Report],
     }),
   }),
 });
@@ -59,3 +71,7 @@ export const {
   useGetReportByIdQuery,
   useGetReportsQuery,
 } = api;
+
+export {
+  api as reportApi,
+};

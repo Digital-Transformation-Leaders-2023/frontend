@@ -21,6 +21,12 @@ type ApiAllReportsResponse = {
   total_files: number,
 };
 
+export enum PatientAgeEnum {
+  Young = "18",
+  Mature = "18-45",
+  Old = "45",
+}
+
 export type {
   Report,
   ApiAllReportsResponse,

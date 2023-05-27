@@ -1,7 +1,9 @@
 import { Button, Card, Checkbox, RadioGroup, Select, Text } from "@gravity-ui/uikit";
 import s from "./FilterBar.module.scss";
-import { useGetReportByIdQuery } from "@entities/report";
+import { reportApi, useGetReportByIdQuery } from "@entities/report";
 import { FC, useCallback, useMemo, useState } from "react";
+import { useAppDispatch } from "@app/providers";
+import { PatientAgeEnum } from "@shared";
 
 type FilterBarProps = {
   reportId: string;
@@ -21,6 +23,8 @@ const InitialFilterState: FilterState = {
 
 export const FilterBar: FC<FilterBarProps> = (props) => {
   const { reportId } = props;
+
+  const dispatch = useAppDispatch();
   const { data } = useGetReportByIdQuery({
     id: reportId,
   }, {
@@ -37,9 +41,30 @@ export const FilterBar: FC<FilterBarProps> = (props) => {
 
   const [filter, setFilter] = useState<FilterState>(InitialFilterState);
 
-  const handleFilterSubmission = useCallback(() => {
-    console.log(filter);
-  }, [filter]);
+  const handleFilterSubmission = useCallback(async () => {
+    const result = dispatch(reportApi.endpoints.getReportById.initiate({
+      id: reportId,
+      ...(filter.sex && { sex: filter.sex }),
+      ...(filter.mkb_code && { mkb_code: filter.mkb_code }),
+      ...(filter.age.length && { age: filter.age }),
+    }, {
+      forceRefetch: true,
+    }));
+
+    return result.unsubscribe;
+  }, [filter, dispatch]);
+
+  const onFilterReset = useCallback(async () => {
+    setFilter(InitialFilterState);
+
+    const result = dispatch(reportApi.endpoints.getReportById.initiate({
+      id: reportId,
+    }, {
+      forceRefetch: true,
+    }));
+
+    return result.unsubscribe;
+  }, []);
 
   return (
     <aside className={s.aside}>
@@ -64,34 +89,34 @@ export const FilterBar: FC<FilterBarProps> = (props) => {
           <section>
             <Text as={"h4"} className={s.heading} variant={"subheader-2"}>Возраст пациента</Text>
             <div className={s.toggleGroup}>
-              <Checkbox checked={filter.age.includes("young")}
+              <Checkbox checked={filter.age.includes(PatientAgeEnum.Young)}
                 content={"Младше 18"}
                 size="l"
-                value={"young"}
+                value={PatientAgeEnum.Young}
                 onUpdate={(checked) => {
                   setFilter({
                     ...filter,
-                    age: checked ? filter.age.concat("young") : filter.age.filter(a => a !== "young"),
+                    age: checked ? filter.age.concat(PatientAgeEnum.Young) : filter.age.filter(a => a !== PatientAgeEnum.Young),
                   });
                 }} />
-              <Checkbox checked={filter.age.includes("mature")}
+              <Checkbox checked={filter.age.includes(PatientAgeEnum.Mature)}
                 content={"От 18 до 45"}
                 size="l"
-                value={"mature"}
+                value={PatientAgeEnum.Mature}
                 onUpdate={(checked) => {
                   setFilter({
                     ...filter,
-                    age: checked ? filter.age.concat("mature") : filter.age.filter(a => a !== "mature"),
+                    age: checked ? filter.age.concat(PatientAgeEnum.Mature) : filter.age.filter(a => a !== PatientAgeEnum.Mature),
                   });
                 }} />
-              <Checkbox checked={filter.age.includes("old")}
-                content={"От 45 и больше"}
+              <Checkbox checked={filter.age.includes(PatientAgeEnum.Old)}
+                content={"От 45 и старше"}
                 size="l"
-                value={"old"}
+                value={PatientAgeEnum.Old}
                 onUpdate={(checked) => {
                   setFilter({
                     ...filter,
-                    age: checked ? filter.age.concat("old") : filter.age.filter(a => a !== "old"),
+                    age: checked ? filter.age.concat(PatientAgeEnum.Old) : filter.age.filter(a => a !== PatientAgeEnum.Old),
                   });
                 }} />
             </div>
@@ -122,7 +147,7 @@ export const FilterBar: FC<FilterBarProps> = (props) => {
         {
           filter !== InitialFilterState && (
             <section className={s.reset}>
-              <Button view={"flat-danger"} onClick={() => setFilter(InitialFilterState)}>
+              <Button view={"flat-danger"} onClick={onFilterReset}>
                 Сбросить фильтр
               </Button>
             </section>
