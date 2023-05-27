@@ -4,6 +4,7 @@ import s from "./ReportCollection.module.scss";
 import { CONST, Pagination } from "@shared";
 import { useSearchParams } from "react-router-dom";
 import { FC } from "react";
+import { NoDataFiller } from "@shared";
 
 type ReportCollectionProps = {
   onlyFavorites?: boolean;
@@ -27,6 +28,11 @@ export const ReportCollection: FC<ReportCollectionProps> = ({ onlyFavorites }) =
   return (
     <>
       <section className={s.collection}>
+        {
+          data?.reports?.length === 0 && (
+            <NoDataFiller />
+          )
+        }
         {
           data?.reports?.map((report) => (
             <ReportCard data={report} key={report.id} />

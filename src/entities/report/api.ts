@@ -8,12 +8,22 @@ const api = rtkApi.injectEndpoints({
     }>({
       query: ({ skip, is_favorite }) => {
         return {
-          url: "reports",
+          url: "api/v1/report/get_all_files",
           params: {
             limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
             is_favorite: is_favorite ?? false,
           },
+        };
+      },
+      transformResponse(response: ApiAllReportsResponse) {
+        return {
+          ...response,
+          reports: response?.reports.map(r => ({
+            ...r,
+            /*@ts-ignore*/
+            date: r.date.$date,
+          })),
         };
       },
     }),
@@ -23,11 +33,18 @@ const api = rtkApi.injectEndpoints({
     }>({
       query: ({ id, skip }) => {
         return {
-          url: `reports/${id}`,
+          url: `api/v1/report/get_by_document_id/${id}`,
           params: {
             limit: CONST.PAGINATION_LIMIT,
             skip: skip ?? 1,
           },
+        };
+      },
+      transformResponse(response: Report) {
+        return {
+          ...response,
+          /*@ts-ignore*/
+          date: response.date.$date,
         };
       },
       providesTags: (result) =>

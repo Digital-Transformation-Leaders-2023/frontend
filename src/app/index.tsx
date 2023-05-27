@@ -2,7 +2,7 @@ import { RouterDOMProvider, store } from "@app/providers";
 import { Provider } from "react-redux";
 import { Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { configure, Spin, ThemeProvider } from "@gravity-ui/uikit";
+import { configure, Spin, ThemeProvider, ToasterComponent, ToasterProvider } from "@gravity-ui/uikit";
 
 import "@gravity-ui/uikit/styles/styles.css";
 import "./index.scss";
@@ -26,7 +26,10 @@ const App = () => {
               <Spin size={"l"} />
             </div>
           )}>
-            <RouterDOMProvider />
+            <ToasterProvider>
+              <RouterDOMProvider />
+              <ToasterComponent />
+            </ToasterProvider>
           </Suspense>
         </ThemeProvider>
       </Provider>

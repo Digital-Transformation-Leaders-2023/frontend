@@ -5,23 +5,23 @@ import { faker } from "@faker-js/faker/locale/ru";
 import { CONST } from "@shared/config/const";
 
 export const handlers = [
-  rest.get<Report[]>("reports", (req, res, ctx) => {
+  rest.get<Report[]>("api/v1/reports/get_all_files", (req, res, ctx) => {
     const take = +(req.url.searchParams.get("limit") ?? CONST.PAGINATION_LIMIT);
     const page = +(req.url.searchParams.get("skip") ?? 1);
     const is_favorite = req.url.searchParams.get("is_favorite") === "true";
 
-    console.log(is_favorite);
-
     return res(
       ctx.status(200),
-      ctx.json<ApiAllReportsResponse>(
+      ctx.json<ApiAllReportsResponse | any>(
         {
           ...(is_favorite ? {
             reports: Array.from({ length: 5 }, () => ({
               id: nanoid(),
               is_favorite: true,
               total: 100,
-              date: faker.date.past(),
+              date: {
+                $date: faker.date.past(),
+              },
               list: Array.from({ length: 100 }, () => ({
                 patient_gender: faker.person.sex(),
                 date_of_patient_birth: faker.date.past({ years: 90 }),
@@ -39,7 +39,9 @@ export const handlers = [
               id: nanoid(),
               is_favorite: faker.datatype.boolean(),
               total: 100,
-              date: faker.date.past(),
+              date: {
+                $date: faker.date.past(),
+              },
               list: Array.from({ length: 100 }, () => ({
                 patient_gender: faker.person.sex(),
                 date_of_patient_birth: faker.date.past({ years: 90 }),
@@ -58,16 +60,18 @@ export const handlers = [
       ));
   }),
 
-  rest.get<Report>("reports/:reportId", (req, res, ctx) => {
+  rest.get<Report>("api/v1/report/get_by_document_id/:reportId", (req, res, ctx) => {
     const { reportId } = req.params;
     const take = +(req.url.searchParams.get("limit") ?? 10);
     const page = +(req.url.searchParams.get("skip") ?? 1);
 
     return res(
       ctx.status(200),
-      ctx.json<Report>({
+      ctx.json<Report | any>({
         id: reportId as string,
-        date: faker.date.past(),
+        date: {
+          $date: faker.date.past(),
+        },
         is_favorite: faker.datatype.boolean(),
         total: 100,
         list: Array.from({ length: 100 }, () => ({
