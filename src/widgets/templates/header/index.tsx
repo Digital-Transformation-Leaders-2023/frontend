@@ -1,7 +1,7 @@
 import { Container } from "@shared";
 import { Link, useLocation } from "react-router-dom";
 import s from "./Header.module.scss";
-import { Button, DropdownMenu, Text, User } from "@gravity-ui/uikit";
+import { Button, Text } from "@gravity-ui/uikit";
 import clsx from "clsx";
 
 export const Header = () => {
