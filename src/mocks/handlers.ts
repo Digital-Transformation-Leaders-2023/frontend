@@ -1,9 +1,7 @@
 import { rest } from "msw";
-import { ApiAllReportsResponse, PatientAgeEnum, Report } from "@shared";
+import { ApiAllReportsResponse, PatientAgeEnum, Report, CONST, getAge } from "@shared";
 import { nanoid } from "nanoid";
 import { faker } from "@faker-js/faker/locale/ru";
-import { CONST } from "@shared/config/const";
-import { getAge } from "@shared/lib";
 
 export const handlers = [
   rest.get<Report[]>("api/v1/report/get_all_files", (req, res, ctx) => {

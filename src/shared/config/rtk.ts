@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ENV } from "@shared/config/env";
-import { api } from "@shared";
+import { api, ENV } from "@shared";
 
 export enum RtkCacheKeysEnum {
   Report = "report",

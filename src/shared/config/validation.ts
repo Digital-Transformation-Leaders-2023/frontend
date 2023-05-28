@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { numericWord } from "@shared/lib";
+import { numericWord } from "@shared";
 
 export const yup = (): typeof Yup => {
   Yup.setLocale({

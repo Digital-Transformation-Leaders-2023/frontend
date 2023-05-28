@@ -1,7 +1,6 @@
-import { Tab } from "@shared";
 import { Label, Text } from "@gravity-ui/uikit";
 import { ReportTable } from "@entities/report";
-import { numericWord } from "@shared/lib";
+import { numericWord, Tab } from "@shared";
 import { useActiveReport } from "@entities/report";
 
 export const ReportDataTab = () => {
