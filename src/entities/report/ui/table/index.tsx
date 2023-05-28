@@ -26,6 +26,13 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const columns = useMemo(() => {
     return [
       {
+        id: "id",
+        name: "ID пациента",
+        meta: {
+          sort: true,
+        },
+      },
+      {
         id: "name",
         primary: true,
         name: "Диагноз",
@@ -77,7 +84,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [settings, setSettings] = useState<TableSettingsData>(() => columns.map(c => ({
     id: c.id,
-    isSelected: !["age", "mkb_code", "sex"].includes(c.id),
+    isSelected: !["age", "mkb_code", "sex", "id"].includes(c.id),
   })));
 
   if (!data) {
@@ -98,6 +105,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
         updateSettings={setSettings}
         data={data?.list.map(d => {
           return {
+            id: d.patient_id,
             name: d.diagnosis,
             appointment: d.appointment,
             accuracy: <Label theme={

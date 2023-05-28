@@ -23,7 +23,7 @@ export const UploadReportButton = () => {
         },
       });
 
-      const { filename } = JSON.parse(data);
+      const { filename } = data;
 
       switch (status) {
         case 200:
