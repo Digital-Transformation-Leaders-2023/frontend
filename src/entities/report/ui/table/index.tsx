@@ -7,7 +7,6 @@ import {
   withTableSelection,
   withTableSettings,
   withTableSorting,
-  TableSortState,
 } from "@gravity-ui/uikit";
 import { useSearchParams } from "react-router-dom";
 
@@ -107,24 +106,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             job_title: d.job_title,
           };
         }) ?? []}
-        sortState={[
-          {
-            column: "accuracy",
-            order: "desc",
-          },
-          {
-            column: "date",
-            order: "desc",
-          },
-          {
-            column: "name",
-            order: "asc",
-          },
-        ]}
-        onSelectionChange={setSelectedIds}
-        onSortStateChange={(sortState: TableSortState) => {
-          console.log(sortState);
-        }} />
+        onSelectionChange={setSelectedIds} />
 
       <Pagination current={+(searchParams.get("page") ?? 1)}
         total={Math.ceil(data?.total / CONST.PAGINATION_LIMIT)}

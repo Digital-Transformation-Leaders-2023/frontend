@@ -3,16 +3,19 @@ import { Button, Card, Text, TextInput, useToaster } from "@gravity-ui/uikit";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon28UserAddBadgeOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
-import { Link } from "react-router-dom";
-import { SignupDto } from "@entities/user";
+import { Link, useNavigate } from "react-router-dom";
+import { SignupDto, userActions } from "@entities/user";
 import { schema } from "@features/auth/sign-up";
 import { api } from "@shared";
 import { AxiosError } from "axios";
 import { useCallback } from "react";
 import Cookies from "js-cookie";
+import { useAppDispatch } from "@app/providers";
 
 export const SignUpForm = () => {
   const { add } = useToaster();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<SignupDto>({
     resolver: yupResolver(schema),
@@ -25,13 +28,26 @@ export const SignUpForm = () => {
 
   const onSubmit = useCallback(async (dto: SignupDto) => {
     try {
-      const { data } = await api.post("signup", JSON.stringify(dto));
+      const { data } = await api.post("signup", dto);
 
-      const token = JSON.parse(data).access_token;
+      const token = data.access_token;
+      const expires = new Date(new Date().getTime() + data.expiration_time * 1000);
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const { data: user } = await api.get("me");
+
       Cookies.set("access_token", token, {
-        expires: 30,
-        httpOnly: true,
+        expires,
+        secure: true,
+        sameSite: "none",
       });
+
+      dispatch(userActions.setToken({
+        token,
+        expires,
+      }));
+      dispatch(userActions.setUser(user));
+      navigate("/");
     } catch (e) {
       const err = e as AxiosError;
       add({

@@ -4,28 +4,59 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "@features/auth/sign-in";
 import { Icon28UserCircleOutline } from "@vkontakte/icons";
 import s from "./Form.module.scss";
-import { Link } from "react-router-dom";
-import { LoginDto } from "@entities/user";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginDto, userActions } from "@entities/user";
 import { AxiosError } from "axios";
 import { api } from "@shared";
+import Cookies from "js-cookie";
+import { useAppDispatch } from "@app/providers";
 
 export const SignInForm = () => {
   const { add } = useToaster();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { control, handleSubmit } = useForm<LoginDto>({
     resolver: yupResolver(schema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   const onSubmit = async (dto: LoginDto) => {
     try {
-      const { data } = await api.post("login", JSON.stringify(dto));
-      console.log(data);
+      const formData = new FormData();
+      formData.append("username", dto.username);
+      formData.append("password", dto.password);
+
+      const { data } = await api.post("token", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+
+      const token = data.access_token;
+      const expires = new Date(new Date().getTime() + data.expiration_time * 1000);
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      const { data: user } = await api.get("me");
+
+      Cookies.set("access_token", token, {
+        expires,
+        secure: true,
+        sameSite: "none",
+      });
+
+      dispatch(userActions.setToken({
+        token,
+        expires,
+      }));
+      dispatch(userActions.setUser(user));
+      navigate("/");
     } catch (e) {
       const err = e as AxiosError;
-      console.log(err);
       add({
         name: "Ошибка",
         title: err?.message ?? "Произошла ошибка при авторизации пользователя",
@@ -43,7 +74,7 @@ export const SignInForm = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className={s.form__fields}>
-          <Controller control={control} name={"email"}
+          <Controller control={control} name={"username"}
             render={({ field, fieldState: { error }  }) => (
               <div>
                 <Text as={"label"} variant={"subheader-1"}>

@@ -52,7 +52,7 @@ const api = rtkApi.injectEndpoints({
           const { data } = await queryFulfilled;
           await dispatch(reportActions.setReport(data));
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       },
       transformResponse(response: Report) {

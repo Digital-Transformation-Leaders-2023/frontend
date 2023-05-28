@@ -1,8 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useAppSelector } from "@app/providers";
 
-const initialState = {
+type Store = {
+  user: any;
+  auth: {
+    token: string;
+    expires: Date;
+  } | null;
+};
+
+const initialState: Store = {
   user: null,
-  token: null,
+  auth: null,
 };
 
 const slice = createSlice({
@@ -12,17 +21,32 @@ const slice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
-    setToken(state, action) {
-      state.token = action.payload;
+    setToken(state, action: PayloadAction<Store["auth"]>) {
+      state.auth = action.payload;
     },
-    reset: () => initialState,
+    logout: () => initialState,
   },
 });
 
 
 const { actions, reducer } = slice;
 
+const useIsAuthenticated = (): boolean => {
+  const { auth } = useAppSelector((state) => state.user);
+  if (!auth)
+    return false;
+
+  return !!auth.token && new Date(auth?.expires) > new Date();
+};
+
+const useUser = (): any => {
+  const { user } = useAppSelector((state) => state.user);
+  return user;
+};
+
 export {
   actions as userActions,
   reducer as userReducer,
+  useIsAuthenticated,
+  useUser,
 };

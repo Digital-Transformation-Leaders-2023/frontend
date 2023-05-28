@@ -1,11 +1,16 @@
 import { Container } from "@shared";
 import { Link, useLocation } from "react-router-dom";
 import s from "./Header.module.scss";
-import { Button, Text } from "@gravity-ui/uikit";
+import { Button, DropdownMenu, Text, User } from "@gravity-ui/uikit";
 import clsx from "clsx";
+import { useIsAuthenticated, useUser } from "@entities/user";
 
 export const Header = () => {
   const location = useLocation();
+  const isAuthenticated = useIsAuthenticated();
+  const user = useUser();
+
+  console.log(isAuthenticated, user);
 
   return (
     <header className={s.header}>
@@ -35,28 +40,39 @@ export const Header = () => {
           </ul>
 
           <>
-            <Link to={"/auth/login"}>
-              <Button view={"flat"}>
-                Войти в аккаунт
-              </Button>
-            </Link>
+            {
+              !isAuthenticated && (
+                <Link to={"/auth/login"}>
+                  <Button view={"flat"}>
+                    Войти в аккаунт
+                  </Button>
+                </Link>
+              )
+            }
           </>
 
-          {/*<DropdownMenu size={"l"} items={[*/}
-          {/*  {*/}
-          {/*    action: () => console.log("выйти"),*/}
-          {/*    theme: "danger",*/}
-          {/*    text: "Выйти",*/}
-          {/*  },*/}
-          {/*]} switcher={(*/}
-          {/*  <User*/}
-          {/*    className={s.user}*/}
-          {/*    description="mayatin@itmo.ru"*/}
-          {/*    imgUrl={"https://photo.itmo.su/avatar/ab7389a33ecd63e4bd6c96ddd9551d73c791806f/cover/320/320/"}*/}
-          {/*    name="Александр Маятин"*/}
-          {/*    size="l"*/}
-          {/*  />*/}
-          {/*)} />*/}
+          <>
+            {
+              isAuthenticated && (
+                <>
+                  <DropdownMenu size={"l"} items={[
+                    {
+                      action: () => console.log("выйти"),
+                      theme: "danger",
+                      text: "Выйти",
+                    },
+                  ]} switcher={(
+                    <User
+                      className={s.user}
+                      imgUrl={"https://photo.itmo.su/avatar/ab7389a33ecd63e4bd6c96ddd9551d73c791806f/cover/320/320/"}
+                      name={user?.username ?? ""}
+                      size="l"
+                    />
+                  )} />
+                </>
+              )
+            }
+          </>
         </nav>
       </Container>
     </header>
