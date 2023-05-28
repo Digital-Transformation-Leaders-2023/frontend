@@ -39,18 +39,17 @@ const slice = createSlice({
 
 const { actions, reducer } = slice;
 
-const useIsAuthenticated = (): boolean => {
-  const { auth } = useAppSelector((state) => state.user);
-  if (!auth)
-    return false;
-
-  return !!auth.token && !!auth.expires && new Date(auth?.expires) > new Date();
-};
-
 const useUser = (): any => {
   const { user } = useAppSelector((state) => state.user);
   return user;
 };
+
+const useIsAuthenticated = (): boolean => {
+  const user = useUser();
+
+  return !!user;
+};
+
 
 export {
   actions as userActions,

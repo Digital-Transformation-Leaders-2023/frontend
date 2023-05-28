@@ -1,5 +1,5 @@
 import { ApiAllReportsResponse, CONST, Report, rtkApi, RtkCacheKeysEnum } from "@shared";
-import { reportActions } from "@entities/report/model.ts";
+import { reportActions } from "@entities/report/model";
 
 const api = rtkApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -7,6 +7,7 @@ import {
   withTableSelection,
   withTableSettings,
   withTableSorting,
+  Text,
 } from "@gravity-ui/uikit";
 import { useSearchParams } from "react-router-dom";
 
@@ -18,8 +19,6 @@ type ReportTableProps = {
 
 export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  console.log(data);
 
   const columns = useMemo(() => {
     return [
@@ -80,9 +79,9 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
 
   if (!data) {
     return (
-      <>
+      <Text>
         Такого отчета не существует
-      </>
+      </Text>
     );
   }
 

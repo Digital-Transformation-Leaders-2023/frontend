@@ -11,7 +11,9 @@ export const store = configureStore({
     [rtkApi.reducerPath]: rtkApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(rtkApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(rtkApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>
