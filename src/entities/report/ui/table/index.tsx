@@ -109,7 +109,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             name: d.diagnosis,
             appointment: d.appointment,
             accuracy: <Label theme={
-              d.accuracy > 0.8 ? "success" : d.accuracy > 0.5 ? "warning" : "danger"
+              d.accuracy > 0.8 ? "success" : d.accuracy > 0.4 ? "warning" : "danger"
             }>{d.accuracy?.toFixed(2)}</Label>,
             date: d.date_of_service,
             age: new Date().getFullYear() - new Date(d.date_of_patient_birth).getFullYear(),
