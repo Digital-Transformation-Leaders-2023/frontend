@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import { useCallback } from "react";
 import Cookies from "js-cookie";
 import { useAppDispatch } from "@app/providers";
+import { faker } from "@faker-js/faker/locale/ru";
 
 export const SignUpForm = () => {
   const { add } = useToaster();
@@ -46,7 +47,10 @@ export const SignUpForm = () => {
         token,
         expires,
       }));
-      dispatch(userActions.setUser(user));
+      dispatch(userActions.setUser({
+        ...user,
+        pic: faker.image.avatar(),
+      }));
       navigate("/");
     } catch (e) {
       const err = e as AxiosError;

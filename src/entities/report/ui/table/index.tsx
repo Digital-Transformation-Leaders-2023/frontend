@@ -19,6 +19,8 @@ type ReportTableProps = {
 export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  console.log(data);
+
   const columns = useMemo(() => {
     return [
       {
@@ -98,8 +100,8 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             appointment: d.appointment,
             accuracy: <Label theme={
               d.accuracy > 0.8 ? "success" : d.accuracy > 0.5 ? "warning" : "danger"
-            }>{d.accuracy.toFixed(2)}</Label>,
-            date: new Date(d.date_of_service).toLocaleDateString("ru"),
+            }>{d.accuracy?.toFixed(2)}</Label>,
+            date: d.date_of_service,
             age: new Date().getFullYear() - new Date(d.date_of_patient_birth).getFullYear(),
             mkb_code: d.MKB_code,
             sex: d.patient_gender,

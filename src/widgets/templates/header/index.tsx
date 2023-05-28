@@ -1,16 +1,26 @@
 import { Container } from "@shared";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import s from "./Header.module.scss";
 import { Button, DropdownMenu, Text, User } from "@gravity-ui/uikit";
 import clsx from "clsx";
-import { useIsAuthenticated, useUser } from "@entities/user";
+import { useIsAuthenticated, userActions, useUser } from "@entities/user";
+import { useCallback } from "react";
+import Cookies from "js-cookie";
+import { useAppDispatch } from "@app/providers";
 
 export const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
   const isAuthenticated = useIsAuthenticated();
   const user = useUser();
 
-  console.log(isAuthenticated, user);
+  const handleLogout = useCallback(() => {
+    dispatch(userActions.logout());
+    Cookies.remove("access_token");
+    navigate("/auth/login");
+  }, [user, isAuthenticated]);
 
   return (
     <header className={s.header}>
@@ -57,14 +67,15 @@ export const Header = () => {
                 <>
                   <DropdownMenu size={"l"} items={[
                     {
-                      action: () => console.log("выйти"),
+                      action: handleLogout,
                       theme: "danger",
                       text: "Выйти",
                     },
                   ]} switcher={(
                     <User
                       className={s.user}
-                      imgUrl={"https://photo.itmo.su/avatar/ab7389a33ecd63e4bd6c96ddd9551d73c791806f/cover/320/320/"}
+                      description={user?.email ?? ""}
+                      imgUrl={user?.pic ?? ""}
                       name={user?.username ?? ""}
                       size="l"
                     />

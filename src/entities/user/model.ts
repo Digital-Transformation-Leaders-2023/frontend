@@ -1,12 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useAppSelector } from "@app/providers";
 
+type User = {
+  username: string;
+  email: string;
+  pic: string;
+};
+
+type AuthToken = {
+  token: string;
+  expires: Date;
+};
+
 type Store = {
-  user: any;
-  auth: {
-    token: string;
-    expires: Date;
-  } | null;
+  user: User | null;
+  auth: AuthToken | null;
 };
 
 const initialState: Store = {
@@ -21,7 +29,7 @@ const slice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
-    setToken(state, action: PayloadAction<Store["auth"]>) {
+    setToken(state, action: PayloadAction<AuthToken>) {
       state.auth = action.payload;
     },
     logout: () => initialState,
@@ -36,7 +44,7 @@ const useIsAuthenticated = (): boolean => {
   if (!auth)
     return false;
 
-  return !!auth.token && new Date(auth?.expires) > new Date();
+  return !!auth.token && !!auth.expires && new Date(auth?.expires) > new Date();
 };
 
 const useUser = (): any => {
