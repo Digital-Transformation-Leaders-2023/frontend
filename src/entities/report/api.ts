@@ -63,6 +63,24 @@ const api = rtkApi.injectEndpoints({
         };
       },
       providesTags: [RtkCacheKeysEnum.Report],
+      extraOptions: {
+        maxRetries: 3,
+      },
+    }),
+    updateReportFavouriteStatus: builder.mutation<Report, {
+      id: string,
+      is_favorite: boolean,
+    }>({
+      query: ({ is_favorite, id }) => {
+        return {
+          url: `/api/v1/report/set_favorite_by_file_id/${id}`,
+          method: "POST",
+          params: {
+            is_favorite,
+          },
+        };
+      },
+      invalidatesTags: [RtkCacheKeysEnum.Report],
     }),
   }),
 });
@@ -70,6 +88,7 @@ const api = rtkApi.injectEndpoints({
 export const {
   useGetReportByIdQuery,
   useGetReportsQuery,
+  useUpdateReportFavouriteStatusMutation,
 } = api;
 
 export {

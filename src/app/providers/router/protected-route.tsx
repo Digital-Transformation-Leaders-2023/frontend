@@ -14,7 +14,7 @@ export const ProtectedRoute: FC<PropsWithChildren> = () => {
   const accessToken = Cookies.get("access_token");
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated || import.meta.env.VITE_MOCKS === "true") {
       return;
     }
 
@@ -32,7 +32,6 @@ export const ProtectedRoute: FC<PropsWithChildren> = () => {
           ...user,
           pic: faker.image.avatar(),
         }));
-        navigate("/");
       } catch (e) {
         Cookies.remove("access_token");
         api.defaults.headers.common["Authorization"] = null;

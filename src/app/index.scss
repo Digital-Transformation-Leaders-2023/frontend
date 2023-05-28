@@ -1,3 +1,5 @@
+@use "src/shared/styles/kit";
+
 .yc-root {
   --yc-font-family-sans: 'Montserrat', sans-serif;
   --yc-font-family-monospace: 'IBM Plex Sans', sans-serif;
@@ -24,6 +26,12 @@
 
 .yc-table__cell {
   white-space: pre-wrap;
+}
+
+.yc-user__info {
+  @include kit.media-breakpoint-down(sm) {
+    display: none;
+  }
 }
 
 *, *::before, *::after {

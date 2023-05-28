@@ -10,6 +10,8 @@ import {
   Text,
 } from "@gravity-ui/uikit";
 import { useSearchParams } from "react-router-dom";
+import { reportApi } from "@entities/report";
+import { useAppDispatch } from "@app/providers";
 
 const RichTable = withTableSettings(withTableSorting(withTableSelection(Table)));
 
@@ -19,6 +21,7 @@ type ReportTableProps = {
 
 export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const columns = useMemo(() => {
     return [
@@ -116,6 +119,12 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             ...searchParams,
             page: page.toString(),
           });
+          dispatch(reportApi.endpoints.getReportById.initiate({
+            id: data?.id,
+            skip: page,
+          }, {
+            forceRefetch: true,
+          }));
         }} />
     </>
   );

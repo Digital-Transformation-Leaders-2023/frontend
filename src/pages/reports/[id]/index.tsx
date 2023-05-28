@@ -1,14 +1,13 @@
 import { AppLayout } from "@widgets";
 import { ReportDataTab, ReportVisualizationTab } from "@entities/report";
 import { useParams } from "react-router-dom";
-import { Card, Skeleton, Tabs, Text } from "@gravity-ui/uikit";
+import { Card, Spin, Tabs, Text } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
 import s from "./ReportPage.module.scss";
 import { useState } from "react";
 import { FilterBar } from "@features/apply-filters";
-import { RemoveReportFromFavourite } from "@features/remove-report-from-favourite";
-import { AddReportToFavourite } from "@features/add-report-to-favourite";
 import { useActiveReport } from "@entities/report";
+import { ChangeFavouriteReportStatus } from "@features/change-favourite-report-status";
 
 type Tabs = "meta" | "visual"
 
@@ -21,7 +20,15 @@ const ReportPage = () => {
   if (isFetching) {
     return (
       <AppLayout>
-        <Skeleton />
+        <Spin size={"l"} />
+      </AppLayout>
+    );
+  }
+
+  if (!report) {
+    return (
+      <AppLayout>
+        <Text>Отчет не найден</Text>
       </AppLayout>
     );
   }
@@ -37,13 +44,7 @@ const ReportPage = () => {
             <FilterBar reportId={id ?? ""} />
 
             <Card>
-              {
-                report?.is_favorite ? (
-                  <AddReportToFavourite />
-                ) : (
-                  <RemoveReportFromFavourite />
-                )
-              }
+              <ChangeFavouriteReportStatus />
             </Card>
           </section>
 
