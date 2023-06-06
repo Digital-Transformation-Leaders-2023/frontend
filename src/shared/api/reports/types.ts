@@ -5,7 +5,7 @@ type Report = {
   is_favorite: boolean,
   list: {
     patient_gender: string,
-    date_of_patient_birth: Date,
+    date_of_patient_birth: string,
     patient_id: number,
     MKB_code: string,
     diagnosis: string,

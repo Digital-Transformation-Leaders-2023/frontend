@@ -1,6 +1,7 @@
-export const getAge = (dateString: Date): number => {
+export const getAge = (dateString: string): number => {
   const today = new Date();
-  const birthDate = new Date(dateString);
+  const ageDate = dateString.split(".");
+  const birthDate = new Date(+ageDate[2], +(ageDate[1]) - 1, +ageDate[0]);
 
   let age = today.getFullYear() - birthDate.getFullYear();
   const m = today.getMonth() - birthDate.getMonth();

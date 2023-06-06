@@ -30,7 +30,7 @@
 
 .yc-user__info {
   @include kit.media-breakpoint-down(sm) {
-    display: none;
+    display: none !important;
   }
 }
 

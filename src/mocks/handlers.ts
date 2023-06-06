@@ -43,7 +43,7 @@ export const handlers = [
               },
               list: Array.from({ length: 100 }, () => ({
                 patient_gender: faker.person.sex(),
-                date_of_patient_birth: faker.date.past({ years: 90 }),
+                date_of_patient_birth: faker.date.past({ years: 90 }).toLocaleDateString("ru-RU"),
                 patient_id: faker.number.int({ max: 100 }),
                 MKB_code: faker.number.int({ min: 1, max: 100 }).toString(),
                 diagnosis: faker.lorem.sentence(),
@@ -85,7 +85,7 @@ export const handlers = [
         total: 100,
         list: Array.from({ length: 100 }, () => ({
           patient_gender: faker.person.sex(),
-          date_of_patient_birth: faker.date.past({ years: 90 }),
+          date_of_patient_birth: faker.date.past({ years: 90 }).toLocaleDateString("ru-RU"),
           patient_id: faker.number.int({ max: 100 }),
           MKB_code: faker.number.int({ min: 1, max: 100 }).toString(),
           accuracy: faker.number.float({ min: 0, max: 1 }),

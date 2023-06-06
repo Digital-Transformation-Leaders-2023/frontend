@@ -41,12 +41,12 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
         },
       },
       {
-        id: "job_title",
-        name: "Должность врача",
-      },
-      {
         id: "appointment",
         name: "Назначение",
+      },
+      {
+        id: "job_title",
+        name: "Должность врача",
       },
       {
         id: "accuracy",
@@ -104,15 +104,19 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
         settings={settings}
         updateSettings={setSettings}
         data={data?.list.map(d => {
+          const ageDate = d.date_of_patient_birth.split(".");
+          const age = new Date().getFullYear() -
+            new Date(+ageDate[2], +(ageDate[1]) - 1, +ageDate[0]).getFullYear();
+
           return {
             id: d.patient_id,
             name: d.diagnosis,
             appointment: d.appointment,
             accuracy: <Label theme={
-              d.accuracy > 0.8 ? "success" : d.accuracy > 0.4 ? "warning" : "danger"
+              d.accuracy > 0.8 ? "success" : d.accuracy > 0.5 ? "warning" : "danger"
             }>{d.accuracy?.toFixed(2)}</Label>,
             date: d.date_of_service,
-            age: new Date().getFullYear() - new Date(d.date_of_patient_birth).getFullYear(),
+            age: isNaN(age) ? null : age,
             mkb_code: d.MKB_code,
             sex: d.patient_gender,
             job_title: d.job_title,
