@@ -13,7 +13,7 @@
   transition: kit.$base-transition;
 
   &:hover {
-    background-color: var(--yc-color-base-generic);
+    background: var(--yc-color-base-generic-hover) !important;
   }
 
   &__meta {
