@@ -1,8 +1,8 @@
-import { RouterDOMProvider, store } from "@app/providers";
+import { RouterDOMProvider, store, ThemeManager } from "@app/providers";
 import { Provider } from "react-redux";
 import { Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
-import { configure, Spin, ThemeProvider, ToasterComponent, ToasterProvider } from "@gravity-ui/uikit";
+import { configure, Spin, ToasterComponent, ToasterProvider } from "@gravity-ui/uikit";
 
 import "@gravity-ui/uikit/styles/styles.css";
 import "./index.scss";
@@ -15,7 +15,7 @@ const App = () => {
   return (
     <HelmetProvider>
       <Provider store={store}>
-        <ThemeProvider theme={"light"}>
+        <ThemeManager>
           <Suspense fallback={(
             <div style={{
               display: "flex",
@@ -31,7 +31,7 @@ const App = () => {
               <ToasterComponent />
             </ToasterProvider>
           </Suspense>
-        </ThemeProvider>
+        </ThemeManager>
       </Provider>
     </HelmetProvider>
   );

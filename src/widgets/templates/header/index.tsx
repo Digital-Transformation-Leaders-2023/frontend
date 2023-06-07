@@ -6,11 +6,13 @@ import clsx from "clsx";
 import { useIsAuthenticated, userActions, useUser } from "@entities/user";
 import { useCallback } from "react";
 import Cookies from "js-cookie";
-import { useAppDispatch } from "@app/providers";
+import { useAppDispatch, useTheme } from "@app/providers";
 
 export const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { theme, setTheme } = useTheme();
 
   const dispatch = useAppDispatch();
   const isAuthenticated = useIsAuthenticated();
@@ -66,6 +68,10 @@ export const Header = () => {
               isAuthenticated && (
                 <>
                   <DropdownMenu size={"l"} items={[
+                    {
+                      action: () => setTheme(theme === "light" ? "dark" : "light"),
+                      text: "Сменить тему",
+                    },
                     {
                       action: handleLogout,
                       theme: "danger",

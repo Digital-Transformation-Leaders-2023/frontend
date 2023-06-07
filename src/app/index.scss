@@ -1,8 +1,6 @@
 @use "src/shared/styles/kit";
 
 .yc-root {
-  --yc-font-family-sans: 'Montserrat', sans-serif;
-  --yc-font-family-monospace: 'IBM Plex Sans', sans-serif;
   --yc-text-code-font-weight: 500;
   --yc-text-body-font-weight: 500;
 }
@@ -19,11 +17,6 @@
   gap: 12px;
 }
 
-.yc-card {
-  padding: 16px;
-  background: white !important;
-}
-
 .yc-table__cell {
   white-space: pre-wrap;
 }
@@ -31,6 +24,19 @@
 .yc-user__info {
   @include kit.media-breakpoint-down(sm) {
     display: none !important;
+  }
+}
+
+.yc-card {
+  padding: 16px;
+  background: var(--yc-color-base-background);
+}
+
+#root, body {
+  background: var(--yc-color-base-generic);
+
+  body[data-theme="dark"] & {
+    background: #25242a;
   }
 }
 
@@ -50,7 +56,6 @@ html {
 
 body {
   line-height: 1.5;
-  background: #F4F4F4;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -105,10 +110,8 @@ p, h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #F4F4F4;
   isolation: isolate;
 }
-
 
 input,
 optgroup,

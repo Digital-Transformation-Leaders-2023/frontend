@@ -3,7 +3,7 @@
 .footer {
   height: 60px;
   margin-top: auto;
-  background: white;
+  background: var(--yc-color-base-background);
 
   &__container {
     display: flex;

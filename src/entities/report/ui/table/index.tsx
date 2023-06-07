@@ -43,10 +43,16 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
       {
         id: "appointment",
         name: "Назначение",
+        meta: {
+          sort: true,
+        },
       },
       {
         id: "job_title",
         name: "Должность врача",
+        meta: {
+          sort: true,
+        },
       },
       {
         id: "accuracy",
@@ -66,6 +72,9 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
       {
         id: "sex",
         name: "Пол пациента",
+        meta: {
+          sort: true,
+        },
       },
       {
         id: "age",
@@ -77,6 +86,9 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
       {
         id: "mkb_code",
         name: "Код МКБ",
+        meta: {
+          sort: true,
+        },
       },
     ];
   }, [data]);
