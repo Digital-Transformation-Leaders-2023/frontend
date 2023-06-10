@@ -13,7 +13,12 @@ type Report = {
     accuracy: number,
     date_of_service: Date,
     job_title: string,
-    appointment: string,
+    appointment: string[],
+    appointment_accuracy: {
+      appointment: string,
+      accuracy: number,
+      added: boolean
+    }[]
   }[]
 };
 

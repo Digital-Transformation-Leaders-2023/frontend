@@ -39,8 +39,8 @@ export const ReportVisualizationTab = () => {
   });
 
   const accuracyChartData = useMemo<PieChartData[]>(() => {
-    return accuracyData?.reduce<PieChartData[]>((acc, value) => {
-      if (value <= MetricsEnum.Medium) {
+    return accuracyData?.flat().reduce<PieChartData[]>((acc, value) => {
+      if (value.accuracy <= MetricsEnum.Medium) {
         acc = acc.map(v => {
           if (v.name === "Низкая точность") {
             v.value += 1;
@@ -50,7 +50,7 @@ export const ReportVisualizationTab = () => {
         });
       }
 
-      if (value > MetricsEnum.Medium && value <= MetricsEnum.High) {
+      if (value.accuracy > MetricsEnum.Medium && value.accuracy <= MetricsEnum.High) {
         acc = acc.map(v => {
           if (v.name === "Средняя точность") {
             v.value += 1;
@@ -60,7 +60,7 @@ export const ReportVisualizationTab = () => {
         });
       }
 
-      if (value > MetricsEnum.High) {
+      if (value.accuracy > MetricsEnum.High) {
         acc = acc.map(v => {
           if (v.name === "Высокая точность") {
             v.value += 1;

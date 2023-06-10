@@ -1,0 +1,20 @@
+.button {
+  position: fixed;
+  bottom: 5%;
+  left: 5%;
+  box-shadow: 0 0 8px 0 rgb(34 60 80 / 20%);
+}
+
+.nestedTabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__root {
+    flex: 0 0 30%;
+  }
+
+  &__tab {
+    flex: 0 0 70%;
+  }
+}

@@ -40,6 +40,15 @@
   }
 }
 
+.yc-tabs__item-title {
+  white-space: normal !important;
+}
+
+.yc-modal__content {
+  max-width: 70vw !important;
+  width: 100%;
+}
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;

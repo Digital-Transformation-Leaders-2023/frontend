@@ -1,5 +1,5 @@
 import { CONST, getAge, MetricsEnum, Pagination, Report } from "@shared";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import {
   Label,
   Table,
@@ -8,12 +8,16 @@ import {
   withTableSettings,
   withTableSorting,
   Text,
+  Tooltip,
+  Button, Dialog, Tabs,
 } from "@gravity-ui/uikit";
 import { useSearchParams } from "react-router-dom";
 import { reportApi } from "@entities/report";
 import { useAppDispatch } from "@app/providers";
+import s from "./Table.module.scss";
 
 const RichTable = withTableSettings(withTableSorting(withTableSelection(Table)));
+const DefaultTable = withTableSorting(Table);
 
 type ReportTableProps = {
   data?: Report;
@@ -23,7 +27,17 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
 
-  const columns = useMemo(() => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selectedIds.length === 1) {
+      setSelectedTab(selectedIds[0]);
+    }
+  }, [selectedIds]);
+
+  const richTableColumns = useMemo(() => {
     return [
       {
         id: "id",
@@ -93,8 +107,25 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
     ];
   }, [data]);
 
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [settings, setSettings] = useState<TableSettingsData>(() => columns.map(c => ({
+  const defaultTableColumns = useMemo(() => {
+    return [
+      {
+        id: "appointment",
+        name: "Назначение",
+        width: "50%",
+      },
+      {
+        id: "accuracy",
+        name: "Точность",
+      },
+      {
+        id: "added",
+        name: "Необходимое назначение",
+      },
+    ];
+  }, [data, selectedTab]);
+
+  const [settings, setSettings] = useState<TableSettingsData>(() => richTableColumns.map(c => ({
     id: c.id,
     isSelected: !["age", "mkb_code", "sex", "id"].includes(c.id),
   })));
@@ -110,21 +141,25 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
   return (
     <>
       <RichTable
-        columns={columns}
+        columns={richTableColumns}
         emptyMessage={"Данных по этому отчету не найдено"}
         selectedIds={selectedIds}
         settings={settings}
         updateSettings={setSettings}
         data={data?.list.map(d => {
           const age = getAge(d.date_of_patient_birth);
+          const averageAccuracy = d.appointment_accuracy.reduce((acc, curr) => acc + curr.accuracy, 0) / d.appointment.length;
 
           return {
             id: d.patient_id,
             name: d.diagnosis,
-            appointment: d.appointment,
-            accuracy: <Label theme={
-              d.accuracy > MetricsEnum.High ? "success" : d.accuracy > MetricsEnum.Medium ? "warning" : "danger"
-            }>{d.accuracy?.toFixed(2)}</Label>,
+            appointment: d.appointment.join("\n"),
+            accuracy:
+            <Tooltip content={"Средняя точность по назначениям"}>
+              <Label theme={
+                averageAccuracy > MetricsEnum.High ? "success" :averageAccuracy > MetricsEnum.Medium ? "warning" : "danger"
+              }>{averageAccuracy?.toFixed(2)}</Label>
+            </Tooltip>,
             date: d.date_of_service,
             age: isNaN(age) ? null : age,
             mkb_code: d.MKB_code,
@@ -148,6 +183,46 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             forceRefetch: true,
           }));
         }} />
+
+      {
+        selectedIds.length > 0 && (
+          <Button className={s.button} view={"action"} onClick={() => setIsModalActive(true)}>
+            Подробнее
+          </Button>
+        )
+      }
+      <Dialog open={isModalActive}
+        onClose={() => {
+          setSelectedIds([]);
+          setIsModalActive(false);
+        }}>
+        <Dialog.Header caption="Детали назначений" />
+        <Dialog.Body>
+          <section className={s.nestedTabs}>
+            <Tabs
+              activeTab={selectedTab}
+              className={s.nestedTabs__root}
+              direction={"horizontal"}
+              size={"l"}
+              items={selectedIds?.map(id => ({
+                id,
+                title: data.list?.[+id]?.diagnosis,
+              }))}
+              onSelectTab={setSelectedTab} />
+            <section className={s.nestedTabs__tab}>
+              <DefaultTable
+                columns={defaultTableColumns}
+                data={data.list?.[+selectedTab]?.appointment_accuracy?.map(d => ({
+                  appointment: d.appointment,
+                  accuracy: <Label theme={
+                    d.accuracy > MetricsEnum.High ? "success" :d.accuracy > MetricsEnum.Medium ? "warning" : "danger"
+                  }>{d.accuracy?.toFixed(2)}</Label>,
+                  added: d.added ? "Да" : "Нет",
+                }))} />
+            </section>
+          </section>
+        </Dialog.Body>
+      </Dialog>
     </>
   );
 };
