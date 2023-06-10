@@ -3,6 +3,7 @@ type Report = {
   total: number,
   date: Date,
   is_favorite: boolean,
+  name: string,
   list: {
     patient_gender: string,
     date_of_patient_birth: string,

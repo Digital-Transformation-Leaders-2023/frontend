@@ -1,21 +1,31 @@
 import { AppLayout } from "@widgets";
-import { ReportDataTab, ReportVisualizationTab } from "@entities/report";
+import { ReportDataTab, ReportVisualizationTab, useRenameReportMutation } from "@entities/report";
 import { useParams } from "react-router-dom";
-import { Card, Spin, Tabs, Text } from "@gravity-ui/uikit";
+import { Button, Card, Spin, Tabs, Text, TextInput } from "@gravity-ui/uikit";
 import { Helmet } from "react-helmet-async";
 import s from "./ReportPage.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FilterBar } from "@features/apply-filters";
 import { useActiveReport } from "@entities/report";
 import { ChangeFavouriteReportStatus } from "@features/change-favourite-report-status";
+import { Icon16PenOutline } from "@vkontakte/icons";
 
 type Tabs = "meta" | "visual"
 
 const ReportPage = () => {
   const { id } = useParams();
   const { report, isFetching } = useActiveReport();
+  const [renameReport] = useRenameReportMutation();
 
   const [tab, setTab] = useState<Tabs>("meta");
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [reportName, setReportName] = useState("");
+
+  useEffect(() => {
+    if (report)
+      setReportName(report?.name);
+  }, [report]);
 
   if (isFetching) {
     return (
@@ -36,7 +46,7 @@ const ReportPage = () => {
   return (
     <>
       <Helmet>
-        <title>Отчет #{id}</title>
+        <title>{report.name}</title>
       </Helmet>
       <AppLayout>
         <section className={s.page__container}>
@@ -49,9 +59,41 @@ const ReportPage = () => {
           </section>
 
           <Card className={s.page__content}>
-            <Text className={s.content__heading} variant={"display-1"}>
-              Отчет #{id}
-            </Text>
+            <section className={s.text__wrapper}>
+              {
+                !isEditing && (
+                  <>
+                    <Text className={s.content__heading} variant={"display-1"}>
+                      {report?.name}
+                    </Text>
+                    <Button onClick={() => setIsEditing(true)}>
+                      <Button.Icon>
+                        <Icon16PenOutline />
+                      </Button.Icon>
+                    </Button>
+                  </>
+                )
+              }
+              {
+                isEditing && (
+                  <>
+                    <TextInput
+                      className={s.text__input}
+                      value={reportName}
+                      onChange={(e) => setReportName(e.target.value)} />
+                    <Button onClick={() => setIsEditing(false)}>Отменить</Button>
+                    <Button view={"action"} onClick={() => {
+                      renameReport({
+                        id: report?.id,
+                        new_name: reportName ?? report?.name,
+                      });
+                      setIsEditing(false);
+                    }}>Сохранить</Button>
+                  </>
+                )
+              }
+            </section>
+
             <Tabs
               activeTab={tab}
               size={"l"}

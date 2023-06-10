@@ -16,7 +16,7 @@ export const ReportCard: FC<ReportCardProps> = (props) => {
     <Link className={s.container} to={`/reports/${data.id}`}>
       <Card className={s.card}>
         <Text className={s.card__header} variant={"subheader-1"}>
-          #{data.id}
+          {data.name}
         </Text>
         <section className={s.card__meta}>
           <span className={s.card__part}>

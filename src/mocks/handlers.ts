@@ -18,6 +18,7 @@ export const handlers = [
               id: nanoid(),
               is_favorite: true,
               total: 100,
+              name: faker.commerce.productName(),
               date: {
                 $date: faker.date.past(),
               },
@@ -38,6 +39,7 @@ export const handlers = [
               id: nanoid(),
               is_favorite: faker.datatype.boolean(),
               total: 100,
+              name: faker.commerce.productName(),
               date: {
                 $date: faker.date.past(),
               },
@@ -85,6 +87,7 @@ export const handlers = [
         total: 100,
         list: Array.from({ length: 100 }, () => ({
           patient_gender: faker.person.sex(),
+          name: faker.commerce.productName(),
           date_of_patient_birth: faker.date.past({ years: 90 }).toLocaleDateString("ru-RU"),
           patient_id: faker.number.int({ max: 100 }),
           MKB_code: faker.number.int({ min: 1, max: 100 }).toString(),

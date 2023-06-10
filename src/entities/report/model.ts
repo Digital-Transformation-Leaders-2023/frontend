@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useAppSelector } from "@app/providers";
 
 const initialState: {
-    report: Report | null;
+  report: Report | null;
 } = {
   report: null,
 };
@@ -21,9 +21,9 @@ export const slice = createSlice({
 });
 
 const useActiveReport = (): {
-    report: Report | undefined;
-    isError: boolean;
-    isFetching: boolean;
+  report: Report | undefined;
+  isError: boolean;
+  isFetching: boolean;
 } => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();

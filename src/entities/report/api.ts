@@ -27,6 +27,7 @@ const api = rtkApi.injectEndpoints({
           })),
         };
       },
+      providesTags: [RtkCacheKeysEnum.Report],
     }),
     getReportById: builder.query<Report, {
       id: string,
@@ -82,6 +83,21 @@ const api = rtkApi.injectEndpoints({
       },
       invalidatesTags: [RtkCacheKeysEnum.Report],
     }),
+    renameReport: builder.mutation<Report, {
+      id: string,
+      new_name: string
+    }>({
+      query: ({ new_name, id }) => {
+        return {
+          url: `/api/v1/report/set_name_by_file_id/${id}`,
+          method: "POST",
+          params: {
+            new_name,
+          },
+        };
+      },
+      invalidatesTags: [RtkCacheKeysEnum.Report],
+    }),
   }),
 });
 
@@ -89,6 +105,7 @@ export const {
   useGetReportByIdQuery,
   useGetReportsQuery,
   useUpdateReportFavouriteStatusMutation,
+  useRenameReportMutation,
 } = api;
 
 export {
