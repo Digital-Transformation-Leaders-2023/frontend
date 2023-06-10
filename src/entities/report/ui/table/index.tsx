@@ -205,7 +205,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             <Tabs
               activeTab={selectedTab}
               className={s.nestedTabs__root}
-              direction={TabsDirection.Vertical}
+              direction={TabsDirection.Horizontal}
               size={"l"}
               items={selectedIds?.map(id => ({
                 id,
