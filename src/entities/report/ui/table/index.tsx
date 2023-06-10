@@ -1,15 +1,18 @@
 import { CONST, getAge, MetricsEnum, Pagination, Report } from "@shared";
 import { FC, useEffect, useMemo, useState } from "react";
 import {
+  Button,
+  Dialog,
   Label,
   Table,
   TableSettingsData,
+  Tabs,
+  TabsDirection,
+  Text,
+  Tooltip,
   withTableSelection,
   withTableSettings,
   withTableSorting,
-  Text,
-  Tooltip,
-  Button, Dialog, Tabs,
 } from "@gravity-ui/uikit";
 import { useSearchParams } from "react-router-dom";
 import { reportApi } from "@entities/report";
@@ -202,7 +205,7 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
             <Tabs
               activeTab={selectedTab}
               className={s.nestedTabs__root}
-              direction={"horizontal"}
+              direction={TabsDirection.Vertical}
               size={"l"}
               items={selectedIds?.map(id => ({
                 id,
