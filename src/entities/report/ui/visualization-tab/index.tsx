@@ -23,9 +23,7 @@ import { isMobile } from "react-device-detect";
 
 type PieChartData = {
   name: string;
-  value: {
-    accuracy: number;
-  };
+  value: number;
 }
 
 const COLORS = ["#d71109", "#e0b507", "#09a300"];
