@@ -98,6 +98,12 @@ const api = rtkApi.injectEndpoints({
       },
       invalidatesTags: [RtkCacheKeysEnum.Report],
     }),
+    accuracyStats: builder.query<number[], string>({
+      query: (id) => `/api/v1/report/get_accuracy_by_file_id/${id}`,
+    }),
+    sexStats: builder.query<any[], string>({
+      query: (id) => `/api/v1/report/get_stats_by_file_id/${id}`,
+    }),
   }),
 });
 
@@ -106,6 +112,8 @@ export const {
   useGetReportsQuery,
   useUpdateReportFavouriteStatusMutation,
   useRenameReportMutation,
+  useAccuracyStatsQuery,
+  useSexStatsQuery,
 } = api;
 
 export {

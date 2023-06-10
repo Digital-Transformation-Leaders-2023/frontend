@@ -1,4 +1,4 @@
-import { CONST, Pagination, Report } from "@shared";
+import { CONST, getAge, MetricsEnum, Pagination, Report } from "@shared";
 import { FC, useMemo, useState } from "react";
 import {
   Label,
@@ -116,16 +116,14 @@ export const ReportTable: FC<ReportTableProps> = ({ data }) => {
         settings={settings}
         updateSettings={setSettings}
         data={data?.list.map(d => {
-          const ageDate = d.date_of_patient_birth.split(".");
-          const age = new Date().getFullYear() -
-            new Date(+ageDate[2], +(ageDate[1]) - 1, +ageDate[0]).getFullYear();
+          const age = getAge(d.date_of_patient_birth);
 
           return {
             id: d.patient_id,
             name: d.diagnosis,
             appointment: d.appointment,
             accuracy: <Label theme={
-              d.accuracy > 0.8 ? "success" : d.accuracy > 0.5 ? "warning" : "danger"
+              d.accuracy > MetricsEnum.High ? "success" : d.accuracy > MetricsEnum.Medium ? "warning" : "danger"
             }>{d.accuracy?.toFixed(2)}</Label>,
             date: d.date_of_service,
             age: isNaN(age) ? null : age,

@@ -23,9 +23,9 @@ type ApiAllReportsResponse = {
 };
 
 export enum PatientAgeEnum {
-  Young = "18",
-  Mature = "18-45",
-  Old = "45",
+  Young = "Young",
+  Mature = "Mature",
+  Old = "Old",
 }
 
 export type {
