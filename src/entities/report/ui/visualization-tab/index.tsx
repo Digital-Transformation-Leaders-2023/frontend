@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAge, MetricsEnum, Tab } from "@shared";
 import {
   useAccuracyStatsQuery,
@@ -39,7 +40,8 @@ export const ReportVisualizationTab = () => {
   });
 
   const accuracyChartData = useMemo<PieChartData[]>(() => {
-    return accuracyData?.flat().reduce<PieChartData[]>((acc, value) => {
+    return accuracyData?.flat().reduce((acc, value) => {
+      // @ts-ignore
       if (value.accuracy <= MetricsEnum.Medium) {
         acc = acc.map(v => {
           if (v.name === "Низкая точность") {
@@ -50,6 +52,7 @@ export const ReportVisualizationTab = () => {
         });
       }
 
+      // @ts-ignore
       if (value.accuracy > MetricsEnum.Medium && value.accuracy <= MetricsEnum.High) {
         acc = acc.map(v => {
           if (v.name === "Средняя точность") {
@@ -60,6 +63,7 @@ export const ReportVisualizationTab = () => {
         });
       }
 
+      // @ts-ignore
       if (value.accuracy > MetricsEnum.High) {
         acc = acc.map(v => {
           if (v.name === "Высокая точность") {
